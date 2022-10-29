@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackendAdminFormRequest;
-use App\Models\Backend\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -20,6 +19,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+
         return view('backend.user-role-permission-management.admin-manage.index', [
             'admins'    => Admin::latest()->get(),
         ]);

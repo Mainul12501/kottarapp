@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +19,8 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    private static $user, $users, $userDetails;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +30,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_details_id',
+        'user_role_type',
+        'account_type',
+
     ];
 
     /**
@@ -58,4 +65,25 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public static function updateOrCreateUser($request, $userDetailsId, $id = null)
+    {
+        self::$user = new User();
+        self::$user->user_details_id   = $userDetailsId;
+        self::$user->name   = $request->first_name;
+        self::$user->email   = $request->email;
+        if (!empty($request->password))
+        {
+            self::$user->password   = Hash::make($request->password);
+        }
+        self::$user->user_role_type = $request->usertype;
+        self::$user->account_status = empty(User::first()) ? 1 : 0;
+        self::$user->save();
+        return self::$user;
+    }
+
+    public function userDetails ()
+    {
+        return $this->hasOne(UserDetails::class);
+    }
 }

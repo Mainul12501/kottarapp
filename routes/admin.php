@@ -6,9 +6,13 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\DesignationController;
-use App\Http\Controllers\Admin\StudentGroupController;
-use App\Http\Controllers\Admin\TeacherController;
+
+use App\Http\Controllers\Admin\CustomAuthUserViewController;
+
+use App\Http\Controllers\Admin\SkillsCategoryController;
+use App\Http\Controllers\Admin\SkillsSubCategoryController;
+use App\Http\Controllers\Admin\JobPostController;
+use App\Http\Controllers\Admin\SkillsController;
 
 
 Route::middleware([
@@ -31,15 +35,20 @@ Route::middleware([
         Route::resource('settings', SettingsController::class);
         //Admin route
         Route::resource('admins', AdminController::class);
-//        Designation route
-        Route::resource('designations', DesignationController::class);
-        // Teacher Route
-        Route::resource('teachers', TeacherController::class);
 
 
-//        Student Group Routes
-        Route::resource('student-groups', StudentGroupController::class);
+
+        Route::resource('skills-category', SkillsCategoryController::class);
+        Route::resource('skills-sub-category', SkillsSubCategoryController::class);
+        Route::resource('skills', SkillsController::class);
+        Route::resource('job-post', JobPostController::class);
     });
+
+    Route::prefix('client')->as('auth-user.')->group(function (){
+        Route::get('/auth-user-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
+    });
+
+
 });
 
 

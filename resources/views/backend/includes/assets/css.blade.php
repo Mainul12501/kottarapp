@@ -25,5 +25,9 @@
     .callout p:last-child {
         margin-bottom: 0;
     }
+    input[data-switch]+label {
+        top: 10px;
+        left: 30px;
+    }
 </style>
 @yield('style')

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\CustomAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['as' => 'front.'], function (){
+    Route::get('/', [FrontController::class, 'home'])->name('home');
+
+
+    Route::get('/register-user',[CustomAuthController::class, 'registerViewForClientAndFreelancer'])->name('register');
+    Route::get('/login-user',[CustomAuthController::class, 'loginViewForClientAndFreelancer'])->name('login');
+    Route::post('/register-user',[CustomAuthController::class, 'registerAndRedirectClientAndFreelancer'])->name('register');
+    Route::post('/login-user',[CustomAuthController::class, 'loginAndRedirectClientAndFreelancer'])->name('login');
 });
+
 
 Route::middleware([
     'auth:sanctum',

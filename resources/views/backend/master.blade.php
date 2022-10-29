@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>{{ isset($backendSetting->site_name) ? $backendSetting->site_name : '' }} - @yield('title')</title>
+    <title>Knotter - @yield('title')</title>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="{{ isset($backendSetting->site_favicon) ? asset($backendSetting->site_favicon) : asset('/').'backend/assets/images/favicon.ico' }}">
 
    @include('backend.includes.assets.css')
+
 
 </head>
 
