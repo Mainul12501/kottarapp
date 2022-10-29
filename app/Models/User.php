@@ -84,6 +84,31 @@ class User extends Authenticatable
 
     public function userDetails ()
     {
-        return $this->hasOne(UserDetails::class);
+        return $this->hasOne(UserDetail::class);
     }
+
+//    public function tradeLicenseFiles()
+//    {
+//        return $this->hasMany(TradeLicenseFile::class);
+//    }
+//
+//    public function jobPosts()
+//    {
+//        return $this->hasMany(JobPost::class, 'client_user_id');
+//    }
+//
+//    public function applyJobs()
+//    {
+//        return $this->hasMany(ApplyJob::class, 'freelancer_user_id');
+//    }
+//
+//    public function ratedBy()
+//    {
+//        return $this->hasMany(Review::class, 'rated_by');
+//    }
+//
+//    public function ratedTo()
+//    {
+//        return $this->hasMany(Review::class, 'rated_to');
+//    }
 }

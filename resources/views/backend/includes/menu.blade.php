@@ -79,7 +79,7 @@
                 <div class="collapse" id="jobPostManagement">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('job-post.index') }}">Post Job</a>
+                            <a href="{{ route('job-questions.index') }}">Job Questions</a>
                         </li>
                     </ul>
                 </div>

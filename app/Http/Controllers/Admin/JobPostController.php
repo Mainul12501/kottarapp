@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Skill;
+use App\Models\Admin\SkillCategory;
+use App\Models\Admin\SkillSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class JobPostController extends Controller
 {
+    private $subCategories;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class JobPostController extends Controller
      */
     public function index()
     {
-        return view('backend.job-post.job-manage.index');
+        return view('front.auth-front.client.post-job.index');
     }
 
     /**
@@ -24,7 +29,19 @@ class JobPostController extends Controller
      */
     public function create()
     {
-        return view('backend.job-post.job-manage.create');
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            return response()->json([
+                'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
+                'skills'        => Skill::where('status', 1)->get(),
+            ]);
+        } else {
+            return view('front.auth-front.client.post-job.create', [
+                'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
+                'skills'        => Skill::where('status', 1)->get(),
+            ]);
+        }
+
     }
 
     /**
@@ -81,5 +98,11 @@ class JobPostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getSubCategoriesByCategory ($categoryId)
+    {
+        $this->subCategories = SkillSubCategory::where('skill_category_id', $categoryId)->where('status', 1)->get();
+        return response()->json($this->subCategories);
     }
 }

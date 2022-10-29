@@ -9,6 +9,6 @@ class CustomAuthUserViewController extends Controller
 {
     public function authUserDashboard ()
     {
-        return view('front.auth-front.dashboard.dashboard');
+        return view('front.auth-front.client.dashboard.dashboard');
     }
 }

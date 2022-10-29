@@ -44,7 +44,7 @@ class CustomAuthController extends Controller
             } else {
                 if ($this->user->user_role_type == 0 || $this->user->user_role_type == 1)
                 {
-                    return redirect()->route('auth-user.dashboard')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
+                    return redirect()->route('client.dashboard')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
                 } else {
                     $this->user->userDetails()->delete();
                     $this->user->delete();
@@ -72,7 +72,7 @@ class CustomAuthController extends Controller
             } else {
                 if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1)
                 {
-                    return redirect()->route('auth-user.dashboard')->with('success', 'You are successfully logged in.');
+                    return redirect()->route('client.dashboard')->with('success', 'You are successfully logged in.');
                 } else {
                     Auth::logout();
                     return redirect()->route('front.register')->with('error', 'Only Buyer and seller can login here');

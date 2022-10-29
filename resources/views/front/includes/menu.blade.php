@@ -154,10 +154,10 @@
                                             <a href="find-staff.html"><i class="fas fa-search"></i> Find Staff </a>
                                         </li>
                                         <li>
-                                            <a href="post-a-job.html"><i class="fas fa-paper-plane"></i> Post Job</a>
+                                            <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Job</a>
                                         </li>
                                         <li>
-                                            <a href="job-dashboard.html"><i class="far fa-list-alt"></i> My job listings</a>
+                                            <a href="{{ route('client.job-post.index') }}"><i class="far fa-list-alt"></i> My job listings</a>
                                         </li>
                                         <li>
                                             <a href="emp-edit-profile.html"><i class="fas fa-user"></i> Update My Profile</a>
@@ -166,7 +166,10 @@
                                             <a href="emp-edit-password.html"><i class="fas fa-key"></i>Change Password</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fas fa-power-off"></i> Logout</a>
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit()"><i class="fas fa-power-off"></i> Logout</a>
+                                            <form action="{{ route('logout') }}" method="post" id="logoutForm">
+                                                @csrf
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
@@ -191,15 +194,16 @@
                         <div class="login_pop">
                             <button class="btn btn-primary">Login / Sign up <i class="fas fa-caret-down"></i></button>
                             <div class="login_pop_box">
-                                            <span class="twobtn_cont">
-                                                <a class=" signjs_btn" href="{{ route('front.register') }}">
-                                                <span>Job seekers</span> Sign up
-                                                <i class="far fa-user"></i>
-                                                </a>
-                                            <a class=" signrs_btn" href="{{ route('front.register') }}">	<span>EMPLOYERS</span> Sign up
-                                                <i class="fas fa-landmark"></i>
-                                            </a>
-                                            </span>
+                                <span class="twobtn_cont">
+                                    <a class=" signjs_btn" href="{{ route('front.register') }}">
+                                        <span>Job seekers</span> Sign up
+                                        <i class="far fa-user"></i>
+                                    </a>
+                                    <a class=" signrs_btn" href="{{ route('front.register') }}">
+                                        <span>EMPLOYERS</span> Sign up
+                                        <i class="fas fa-landmark"></i>
+                                    </a>
+                                </span>
                                 <div>
                                     <span class="member_btn">Already a member?</span>
                                     <a class="lgin_btn btn btn-primary" href="{{ route('front.login') }}">

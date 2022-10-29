@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SkillsCategoryController;
 use App\Http\Controllers\Admin\SkillsSubCategoryController;
 use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\SkillsController;
+use App\Http\Controllers\Admin\JobPostQuestionController;
 
 
 Route::middleware([
@@ -41,12 +42,19 @@ Route::middleware([
         Route::resource('skills-category', SkillsCategoryController::class);
         Route::resource('skills-sub-category', SkillsSubCategoryController::class);
         Route::resource('skills', SkillsController::class);
-        Route::resource('job-post', JobPostController::class);
+
+        Route::resource('job-questions', JobPostQuestionController::class);
+
     });
 
-    Route::prefix('client')->as('auth-user.')->group(function (){
-        Route::get('/auth-user-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
+//    Frontend client section routes
+    Route::prefix('client')->as('client.')->group(function (){
+//        job post crud
+        Route::resource('job-post', JobPostController::class);
+        Route::get('/client-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
     });
+
+    Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
 
 
 });
