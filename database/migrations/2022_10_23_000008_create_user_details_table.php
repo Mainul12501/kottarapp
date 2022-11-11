@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('user_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('first_name')->nullable();
-            $table->string('Last_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('surname')->nullable();
             $table->string('country')->nullable();
             $table->string('emirate_state_name')->nullable();
@@ -23,9 +23,12 @@ return new class extends Migration {
             $table->string('profile_image')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('educational_status')->nullable();
-            $table->string('University_name')->nullable();
-            $table->string('Freelancer_job_title')->nullable();
-            $table->string('Freelancer_language')->nullable();
+            $table->string('university_name')->nullable();
+            $table->string('freelancer_job_title')->nullable();
+            $table->string('freelancer_language')->nullable();
+            $table->string('bank_account_no')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('emirates_id_no')->nullable();
             $table->longText('freelancer_description')->nullable();
             $table->tinyInteger('Working_type')->nullable();
             $table->string('company_name')->nullable();

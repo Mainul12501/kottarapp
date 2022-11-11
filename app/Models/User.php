@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\JobPost;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,13 +71,13 @@ class User extends Authenticatable
     {
         self::$user = new User();
         self::$user->user_details_id   = $userDetailsId;
-        self::$user->name   = $request->first_name;
+        self::$user->name   = $request->name;
         self::$user->email   = $request->email;
         if (!empty($request->password))
         {
             self::$user->password   = Hash::make($request->password);
         }
-        self::$user->user_role_type = $request->usertype;
+        self::$user->user_role_type = $request->user_role_type;
         self::$user->account_status = empty(User::first()) ? 1 : 0;
         self::$user->save();
         return self::$user;
@@ -84,7 +85,7 @@ class User extends Authenticatable
 
     public function userDetails ()
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->belongsTo(UserDetail::class, 'user_details_id', 'id');
     }
 
 //    public function tradeLicenseFiles()
@@ -92,10 +93,10 @@ class User extends Authenticatable
 //        return $this->hasMany(TradeLicenseFile::class);
 //    }
 //
-//    public function jobPosts()
-//    {
-//        return $this->hasMany(JobPost::class, 'client_user_id');
-//    }
+    public function jobPosts()
+    {
+        return $this->hasMany(JobPost::class, 'client_user_id');
+    }
 //
 //    public function applyJobs()
 //    {

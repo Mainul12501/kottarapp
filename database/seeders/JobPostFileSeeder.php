@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin\SkillCategory;
+use App\Models\Admin\JobPostFile;
 use Illuminate\Database\Seeder;
 
-class SkillCategorySeeder extends Seeder
+class JobPostFileSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class SkillCategorySeeder extends Seeder
      */
     public function run()
     {
-        SkillCategory::factory()
+        JobPostFile::factory()
             ->count(5)
             ->create();
     }

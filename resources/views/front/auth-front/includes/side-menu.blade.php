@@ -91,7 +91,7 @@
             <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Job</a>
         </li>
         <li>
-            <a href="{{ route('client.job-post.index') }}"><i class="far fa-list-alt"></i> My job listings</a>
+            <a href="{{ route('client.job-post-list') }}"><i class="far fa-list-alt"></i> My job listings</a>
         </li>
 
 
@@ -99,13 +99,16 @@
     <h5>Account</h5>
     <ul class="user_navigation">
         <li>
-            <a href="emp-edit-profile.html"><i class="fas fa-user"></i> Update My Profile</a>
+            <a href="#"><i class="fas fa-user"></i> Update My Profile</a>
         </li>
         <li >
-            <a href="emp-edit-password.html"><i class="fas fa-key"></i>Change Password</a>
+            <a href="#"><i class="fas fa-key"></i>Change Password</a>
         </li>
         <li>
-            <a href="#"><i class="fas fa-power-off"></i> Logout</a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutFOrm').submte()"><i class="fas fa-power-off"></i> Logout</a>
+            <form action="{{ route('logout') }}" method="post" id="logoutFOrm">
+                @csrf
+            </form>
         </li>
     </ul>
 </div>

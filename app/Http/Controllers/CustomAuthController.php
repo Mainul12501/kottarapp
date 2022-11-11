@@ -45,10 +45,11 @@ class CustomAuthController extends Controller
                 if ($this->user->user_role_type == 0 || $this->user->user_role_type == 1)
                 {
                     return redirect()->route('client.dashboard')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
+//                    return redirect()->route('front.home')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
                 } else {
-                    $this->user->userDetails()->delete();
+                    $this->user->userDetails->delete();
                     $this->user->delete();
-                    return redirect()->route('front.register')->with('error', 'Only Buyer and seller can register. Thanks');
+                    return redirect()->route('front.register')->with('error', 'Only Buyer and seller can register here. Thanks');
                 }
             }
 
@@ -63,6 +64,11 @@ class CustomAuthController extends Controller
 
     public function loginAndRedirectClientAndFreelancer (Request $request)
     {
+        $this->validate($request,[
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         if (Auth::attempt($request->only('email', 'password')))
         {
             if (Str::contains(url()->current(), '/api/'))

@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin\SkillCategory;
+use App\Models\Admin\SkillSubCategory;
 use Illuminate\Support\Str;
-use App\Models\SkillSubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SkillSubCategoryFactory extends Factory
@@ -23,10 +24,10 @@ class SkillSubCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'Sub_category_name' => $this->faker->text(255),
+            'Sub_category_name' => $this->faker->text(191),
             'slug' => $this->faker->slug,
             'status' => $this->faker->numberBetween(0, 127),
-            'skill_category_id' => \App\Models\SkillCategory::factory(),
+            'skill_category_id' => SkillCategory::factory(),
         ];
     }
 }

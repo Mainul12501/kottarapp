@@ -23,36 +23,56 @@
                             <h5 class="mb-0">Create an account!</h5>
                             <span>Already have an account? <a href="{{ route('front.login') }}">Log In!</a></span>
                         </div>
-                        <div>
-                            <ul>
-                                @foreach($errors as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+{{--                        <div>--}}
+{{--                            <ul>--}}
+{{--                                @foreach($errors as $error)--}}
+{{--                                    <li>{{ $error }}</li>--}}
+{{--                                @endforeach--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
                         <form action="{{ route('front.register') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="com_class_form">
                                 <div class="form-group user_type_cont">
                                     <label class="user_type" for="usertype-1">
-                                        <input type="radio" checked="" name="usertype" id="usertype-1" value="0" >
-                                        <span><i class="far fa-user"></i> Job Seeker</span>
+                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 0 ? 'checked' : '' }} name="user_role_type" id="usertype-1" value="0" >
+                                        <span><i class="far fa-user"></i> Student</span>
                                     </label>
                                     <label class="user_type" for="usertype-2">
-                                        <input type="radio" name="usertype" id="usertype-2" value="1" >
-                                        <span><i class="fas fa-landmark"></i> Employer</span>
+                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 1 ? 'checked' : '' }} name="user_role_type" id="usertype-2" value="1" >
+                                        <span><i class="fas fa-landmark"></i> SME</span>
                                     </label>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="first_name"  size="40" placeholder="First Name *">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="last_name" size="40" placeholder="Last Name">
+                                <div class="freelancer-inputs">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="first_name"  size="40" placeholder="First Name *">
+                                            @error('first_name')<span class="text-danger f-s-12">{{ $errors->first('first_name') }}</span>@enderror
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="last_name" size="40" placeholder="Last Name">
+                                            @error('last_name')<span class="text-danger f-s-12">{{ $errors->first('last_name') }}</span>@enderror
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="name" size="40" placeholder="Sure name ">
+                                <div class="client-inputs">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="company_name"  size="40" placeholder="Company Name *">
+                                            @error('company_name')<span class="text-danger f-s-12">{{ $errors->first('company_name') }}</span>@enderror
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="trade_license_no" size="40" placeholder="Trade License Number *">
+                                            @error('trade_license_no')<span class="text-danger f-s-12">{{ $errors->first('trade_license_no') }}</span>@enderror
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mt-3">
+                                        <input class="form-control" type="text" name="name" size="40" placeholder="User Name *">
+                                        @error('name')<span class="text-danger f-s-12">{{ $errors->first('name') }}</span>@enderror
+                                    </div>
                                 </div>
 {{--                                <div class="form-group ">--}}
 {{--                                    <div class="row" style="padding-left: 2%; padding-right: 2%">--}}
@@ -277,10 +297,12 @@
 {{--                                </div>--}}
                                 <div class="form-group">
                                     <input class="form-control" type="email" name="email" size="40" placeholder="Email address* ">
+                                    @error('email')<span class="text-danger f-s-12">{{ $errors->first('email') }}</span>@enderror
                                 </div>
 
                                 <div class="form-group">
                                     <input class="form-control" type="password" name="password" placeholder=" Password * ">
+                                    @error('password')<span class="text-danger f-s-12">{{ $errors->first('password') }}</span>@enderror
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" type="password" name="password_confirmation" placeholder="Re-enter Password * ">
@@ -554,7 +576,7 @@
                                 </div>
                                 <div class="form-group form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox"> Remember me
+                                        <input class="form-check-input" type="checkbox" name="remember_me"> Remember me
                                     </label>
                                 </div>
 
@@ -573,6 +595,29 @@
 
 @endsection
 
-{{--@section('script')--}}
-{{--    --}}
-{{--@endsection--}}
+@section('script')
+    <script>
+        $(function () {
+            showHideInputFields();
+        })
+        $(document).on('click', '#usertype-1', function () {
+            showHideInputFields();
+        })
+        $(document).on('click', '#usertype-2', function () {
+            showHideInputFields();
+        })
+        function showHideInputFields() {
+            var selectedUserType = $('input[name="usertype"]:checked').val();
+            if (selectedUserType == 0)
+            {
+                $('.freelancer-inputs').removeClass('d-none');
+                $('.client-inputs').addClass('d-none');
+            } else if (selectedUserType == 1)
+            {
+                $('.client-inputs').removeClass('d-none');
+                $('.freelancer-inputs').addClass('d-none');
+            }
+
+        }
+    </script>
+@endsection

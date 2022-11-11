@@ -27,7 +27,7 @@ function imageUpload ($image, $imageDirectory, $imageNameString = null, $width =
     return $imageUrl;
 }
 
-function userCertificateUpload ($fileObject, $directory, $nameString = null)
+function fileUploadHelper ($fileObject, $directory, $nameString = null)
 {
     if ($fileObject)
     {
@@ -40,6 +40,10 @@ function userCertificateUpload ($fileObject, $directory, $nameString = null)
     }
 }
 
+function getFileSize($file)
+{
+    return $file->getSize();
+}
 function getFileExtension($file)
 {
     return $file->extension();

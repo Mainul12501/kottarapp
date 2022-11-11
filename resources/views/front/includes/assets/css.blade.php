@@ -8,6 +8,8 @@
 <link href="{{ asset('/') }}frontend/assets/css/owl.carousel.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
 <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/style.css">
+<link rel="stylesheet" href="{{ asset('/') }}backend/assets/css/helper.min.css">
+<link rel="stylesheet" href="{{ asset('/') }}backend/assets/css/vendor/toastrjs.min.css">
 <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/color-1.css">
 @yield('style')
 

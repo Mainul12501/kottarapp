@@ -51,6 +51,8 @@ Route::middleware([
     Route::prefix('client')->as('client.')->group(function (){
 //        job post crud
         Route::resource('job-post', JobPostController::class);
+        Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list');
+
         Route::get('/client-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
     });
 

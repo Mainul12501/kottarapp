@@ -100,11 +100,13 @@ class SkillsController extends Controller
 
     public function getAllSkills ()
     {
-        $this->skills = Skill::latest()->get();
+
         if (Str::contains(url()->current(), '/api/'))
         {
+            $this->skills = Skill::latest()->select('id', 'name')->get();
             return response()->json($this->skills,200);
         } else {
+            $this->skills = Skill::latest()->get();
             return $this->skills;
         }
 

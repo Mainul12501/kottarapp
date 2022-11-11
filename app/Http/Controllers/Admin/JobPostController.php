@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\JobPost;
+use App\Models\Admin\JobPostFile;
+use App\Models\Admin\JobPostQuestion;
 use App\Models\Admin\Skill;
 use App\Models\Admin\SkillCategory;
 use App\Models\Admin\SkillSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class JobPostController extends Controller
 {
-    private $subCategories;
+    private $subCategories, $jobPosts, $jobPost;
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +23,7 @@ class JobPostController extends Controller
      */
     public function index()
     {
-        return view('front.auth-front.client.post-job.index');
+
     }
 
     /**
@@ -29,19 +33,25 @@ class JobPostController extends Controller
      */
     public function create()
     {
-        if (Str::contains(url()->current(), '/api/'))
+        if (auth()->user()->account_status == 1)
         {
-            return response()->json([
-                'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
-                'skills'        => Skill::where('status', 1)->get(),
-            ]);
+            if (Str::contains(url()->current(), '/api/'))
+            {
+                return response()->json([
+                    'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
+                    'skills'        => Skill::where('status', 1)->get(),
+                    'questions'     => JobPostQuestion::where('status', 1)->get(),
+                ]);
+            } else {
+                return view('front.auth-front.client.post-job.create', [
+                    'skillCategories'   => SkillCategory::where('status', 1)->latest()->get(),
+                    'skills'            => Skill::where('status', 1)->get(),
+                    'questions'         => JobPostQuestion::where('status', 1)->get(),
+                ]);
+            }
         } else {
-            return view('front.auth-front.client.post-job.create', [
-                'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
-                'skills'        => Skill::where('status', 1)->get(),
-            ]);
+            return redirect()->back()->with('error', 'Your account has not approved yet.');
         }
-
     }
 
     /**
@@ -52,7 +62,27 @@ class JobPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request){
+            $this->jobPost = JobPost::createJob($request);
+            if (!empty($request->required_skills))
+            {
+               $this->jobPost->skills()->sync($request->required_skills);
+            }
+            if (!empty($request->file('files')))
+            {
+                JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
+            }
+            if (!empty($request->job_questions))
+            {
+                $this->jobPost->jobPostQuestions()->sync($request->job_questions);
+            }
+        });
+        if (isset($this->jobPost))
+        {
+            return redirect()->route('client.job-post.index')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
+        } else {
+            return back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
 
     /**
@@ -74,7 +104,12 @@ class JobPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('front.auth-front.client.post-job.create', [
+            'skillCategories'   => SkillCategory::where('status', 1)->latest()->get(),
+            'skills'            => Skill::where('status', 1)->get(),
+            'questions'         => JobPostQuestion::where('status', 1)->get(),
+            'jobPost'           => JobPost::findOrFail($id),
+        ]);
     }
 
     /**
@@ -104,5 +139,12 @@ class JobPostController extends Controller
     {
         $this->subCategories = SkillSubCategory::where('skill_category_id', $categoryId)->where('status', 1)->get();
         return response()->json($this->subCategories);
+    }
+
+    public function userWiseJobPost ()
+    {
+        return view('front.auth-front.client.post-job.index',[
+            'jobPosts'  => JobPost::where('client_user_id', auth()->id())->get(),
+        ]);
     }
 }

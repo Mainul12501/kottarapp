@@ -85,34 +85,37 @@
                 </div>
             </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#userManagement" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                    <i class="uil-home-alt"></i>
-                    <span> User Management </span>
-                </a>
-                <div class="collapse" id="userManagement">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="">Buyer</a>
-                        </li>
-                        <li>
-                            <a href="">Seller</a>
-                        </li>
-                        <li>
-                            <a href="">Trainer</a>
-                        </li>
-                        <li>
-                            <a href="">User</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#userManagement" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">--}}
+{{--                    <i class="uil-home-alt"></i>--}}
+{{--                    <span> User Management </span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="userManagement">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="">Buyer</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="">Seller</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="">Trainer</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="">User</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
             <li class="side-nav-item">
-                <a href="" class="side-nav-link">
+                <a href="javascript:void(0)" class="side-nav-link" onclick="event.preventDefault(); document.getElementById('logoutForm')">
                     <i class="uil-home-alt"></i>
                     <span> Logout </span>
                 </a>
+                <form action="{{ route('logout') }}" method="post" id="logOutForm">
+                    @csrf
+                </form>
             </li>
         </ul>
 

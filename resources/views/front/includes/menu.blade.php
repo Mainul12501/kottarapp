@@ -2,7 +2,7 @@
     <div class="container">
         <div class="header_top">
             <div class="logo">
-                <a href="index.html">
+                <a href="{{ route('front.home') }}">
 {{--                    <img  alt="JoDice" class="img-fluid" src="{{ asset('/') }}frontend/assets/images/dice-logo.png">--}}
                     <img  alt="Knotters" class="img-fluid" src="{{ asset('/') }}frontend/assets/images/logo/Logo -orange.svg">
                 </a>
@@ -33,13 +33,13 @@
 {{--                            </ul>--}}
                         </li>
                         <li class="has-sub-menu">
-                            <a href="index.html">Job Seekers</a>
+                            <a href="javascript:void(0)">Student</a>
                             <ul class="sub-menu">
                                 <li>
                                     <a href="job-seeker-dashboard.html">Job dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="browse-jobs.html">Browse jobs</a>
+                                    <a href="browse-jobs.html">Browse Gigs</a>
                                 </li>
 
                                 <li>
@@ -70,16 +70,16 @@
 
 
                         <li class="has-sub-menu">
-                            <a href="#">For employers</a>
+                            <a href="#">SME</a>
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="job-dashboard.html">Job dashboard</a>
+                                    <a href="{{ route('client.dashboard') }}">Job dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="post-a-job.html">Post a job</a>
+                                    <a href="{{ route('client.job-post.create') }}">Post a Gig</a>
                                 </li>
                                 <li>
-                                    <a href="my-job-listing.html">My Jobs listing</a>
+                                    <a href="{{ route('client.job-post.index') }}">My Jobs listing</a>
                                 </li>
                                 <li>
                                     <a href="find-staff.html">Find staff</a>
@@ -136,11 +136,11 @@
                     @if(auth()->check())
                         <!-- logedin-->
                             <div class="login_pop after_login">
-                                <button class="btn btn-primary withdp"><img alt=""  src="assets/images/c-logo-03.webp"> Donec Software   <i class="fas fa-caret-down"></i></button>
+                                <button class="btn btn-primary withdp"><img alt=""  src="{{ isset(auth()->user()->userDetails->profile_image) ? asset(auth()->user()->userDetails->profile_image) : asset('frontend/assets/images/c-logo-03.webp') }}"> {{ auth()->user()->name }}   <i class="fas fa-caret-down"></i></button>
                                 <div class="login_pop_box login_pop_box_menu">
                                     <div class="login_pop_box_head">
                                         <div class=" ">
-                                            <img alt=""  src="assets/images/c-logo-03.webp">
+                                            <img alt=""  src="{{ isset(auth()->user()->userDetails->profile_image) ? asset(auth()->user()->userDetails->profile_image) : asset('frontend/assets/images/c-logo-03.webp') }}">
                                             <span> New York, London </span>
                                             <h5>Donec Software </h5>
                                             <h6>&nbsp;</h6>
@@ -148,10 +148,10 @@
                                     </div>
                                     <ul class="user_navigation">
                                         <li>
-                                            <a href="find-staff.html"><i class="fas fa-border-all"></i> Job Dashboard </a>
+                                            <a href="{{ route('client.dashboard') }}"><i class="fas fa-border-all"></i> Job Dashboard </a>
                                         </li>
                                         <li>
-                                            <a href="find-staff.html"><i class="fas fa-search"></i> Find Staff </a>
+                                            <a href="#"><i class="fas fa-search"></i> Find Staff </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Job</a>
@@ -160,10 +160,10 @@
                                             <a href="{{ route('client.job-post.index') }}"><i class="far fa-list-alt"></i> My job listings</a>
                                         </li>
                                         <li>
-                                            <a href="emp-edit-profile.html"><i class="fas fa-user"></i> Update My Profile</a>
+                                            <a href="#"><i class="fas fa-user"></i> Update My Profile</a>
                                         </li>
                                         <li>
-                                            <a href="emp-edit-password.html"><i class="fas fa-key"></i>Change Password</a>
+                                            <a href="#"><i class="fas fa-key"></i>Change Password</a>
                                         </li>
                                         <li>
                                             <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit()"><i class="fas fa-power-off"></i> Logout</a>
@@ -182,9 +182,9 @@
                                 <div class="login_pop_box job_seekernotifi ">
                                     <h6>Inbox</h6>
                                     <ul>
-                                        <li><img alt="" src="assets/images/profile-1.png"><a href="#"> John Stone applying this job  contact  </a> </li>
-                                        <li><img alt="" src="assets/images/profile-2.png"><a href="#">Nguta Ithya  applying this job  contact  </a> </li>
-                                        <li><img alt="" src="assets/images/profile-4.png"><a href="#">Salome Simoes applying this job</a> </li>
+                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-1.png"><a href="#"> John Stone applying this job  contact  </a> </li>
+                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-2.png"><a href="#">Nguta Ithya  applying this job  contact  </a> </li>
+                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-4.png"><a href="#">Salome Simoes applying this job</a> </li>
                                     </ul>
                                 </div>
                             </div>
@@ -195,12 +195,12 @@
                             <button class="btn btn-primary">Login / Sign up <i class="fas fa-caret-down"></i></button>
                             <div class="login_pop_box">
                                 <span class="twobtn_cont">
-                                    <a class=" signjs_btn" href="{{ route('front.register') }}">
-                                        <span>Job seekers</span> Sign up
+                                    <a class="signjs_btn" href="{{ route('front.register') }}?type=0">
+                                        <span>Student</span> Sign up
                                         <i class="far fa-user"></i>
                                     </a>
-                                    <a class=" signrs_btn" href="{{ route('front.register') }}">
-                                        <span>EMPLOYERS</span> Sign up
+                                    <a class=" signrs_btn" href="{{ route('front.register') }}?type=1">
+                                        <span>SME</span> Sign up
                                         <i class="fas fa-landmark"></i>
                                     </a>
                                 </span>

@@ -54,8 +54,8 @@
 @endsection
 
 @section('script')
-    <script src="../../../../www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="../../../../www.amcharts.com/lib/3/serial.js"></script>
-    <script src="../../../../www.amcharts.com/lib/3/themes/patterns.js"></script>
+    <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/serial.js"></script>
+    <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/themes/patterns.js"></script>
     <script src="{{ asset('/') }}frontend/assets/js/amchart-custom.js"></script>
 @endsection

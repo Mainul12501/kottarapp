@@ -12,12 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('skill_sub_categories', function (Blueprint $table) {
+        Schema::create('job_post_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('skill_category_id');
-            $table->string('sub_category_name')->nullable();
-            $table->string('slug')->nullable();
-            $table->tinyInteger('status')->default(0)->nullable();
+            $table->unsignedBigInteger('job_post_id');
+            $table->string('file_url')->nullable();
+            $table->string('file_type')->nullable();
+            $table->integer('file_size')->nullable();
 
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('skill_sub_categories');
+        Schema::dropIfExists('job_post_files');
     }
 };

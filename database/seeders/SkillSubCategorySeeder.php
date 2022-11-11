@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin\SkillSubCategory;
 use Illuminate\Database\Seeder;
-use App\Models\SkillSubCategory;
 
 class SkillSubCategorySeeder extends Seeder
 {
