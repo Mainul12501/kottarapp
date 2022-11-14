@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Admin\JobPost;
+use App\Models\Admin\TradeLicenseFile;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'profile_photo_url'
     ];
 
     /**
@@ -88,11 +90,11 @@ class User extends Authenticatable
         return $this->belongsTo(UserDetail::class, 'user_details_id', 'id');
     }
 
-//    public function tradeLicenseFiles()
-//    {
-//        return $this->hasMany(TradeLicenseFile::class);
-//    }
-//
+    public function tradeLicenseFiles()
+    {
+        return $this->hasMany(TradeLicenseFile::class);
+    }
+
     public function jobPosts()
     {
         return $this->hasMany(JobPost::class, 'client_user_id');

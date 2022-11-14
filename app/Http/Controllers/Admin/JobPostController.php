@@ -62,24 +62,29 @@ class JobPostController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request){
+        DB::beginTransaction();
+        try {
             $this->jobPost = JobPost::createJob($request);
             if (!empty($request->required_skills))
             {
-               $this->jobPost->skills()->sync($request->required_skills);
-            }
-            if (!empty($request->file('files')))
-            {
-                JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
+                $this->jobPost->skills()->sync($request->required_skills);
             }
             if (!empty($request->job_questions))
             {
                 $this->jobPost->jobPostQuestions()->sync($request->job_questions);
             }
-        });
+            if (!empty($request->file('files')))
+            {
+                JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
+            }
+
+        } catch (\Exception $exception)
+        {
+            DB::rollBack();
+        }
         if (isset($this->jobPost))
         {
-            return redirect()->route('client.job-post.index')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
+            return redirect()->route('client.job-post-list')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
         } else {
             return back()->with('error', 'Something went wrong. Please try again.');
         }
@@ -104,6 +109,7 @@ class JobPostController extends Controller
      */
     public function edit($id)
     {
+
         return view('front.auth-front.client.post-job.create', [
             'skillCategories'   => SkillCategory::where('status', 1)->latest()->get(),
             'skills'            => Skill::where('status', 1)->get(),
@@ -132,7 +138,13 @@ class JobPostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        JobPost::findOrFail($id)->delete();
+        if (Str::contains(url()->current(),'/api/'))
+        {
+            return response()->json(['success' => 'Gig deleted successfully.']);
+        } else {
+            return back()->with('success', 'Gig deleted successfully.');
+        }
     }
 
     public function getSubCategoriesByCategory ($categoryId)

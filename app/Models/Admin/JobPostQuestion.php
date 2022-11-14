@@ -28,8 +28,8 @@ class JobPostQuestion extends Model
         ]);
     }
 
-//    public function jobPosts()
-//    {
-//        return $this->belongsToMany(JobPost::class);
-//    }
+    public function jobPosts()
+    {
+        return $this->belongsToMany(JobPost::class);
+    }
 }

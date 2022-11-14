@@ -55,10 +55,15 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="job-dashboard-action-delete">
-{{--                                                Delete--}}
+                                            <a href="#" class="job-dashboard-action-delete" onclick="event.preventDefault();document.getElementById('gig{!! $jobPost->id !!}').submit()">
+                                                {{--                                                Delete--}}
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
+                                            <form action="{{ route('client.job-post.destroy', $jobPost->id) }}" id="gig{{ $jobPost->id }}" method="post" onsubmit="return confirm('Are you sure to delete this Gig')">
+                                                @csrf
+                                                @method('delete')
+
+                                            </form>
                                         </li>
                                     </ul>
                                 </td>

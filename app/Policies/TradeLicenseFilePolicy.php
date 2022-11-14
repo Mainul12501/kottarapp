@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\TradeLicenseFile;
+use App\Models\Admin\TradeLicenseFile;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TradeLicenseFilePolicy

@@ -31,7 +31,8 @@ function fileUploadHelper ($fileObject, $directory, $nameString = null)
 {
     if ($fileObject)
     {
-        $fileName       = str_replace(' ', '-', $fileObject->getClientOriginalName()).'~'.rand(100,100000).'.'.$fileObject->extension();
+//        $fileName       = str_replace(' ', '-', $fileObject->getClientOriginalName()).'~'.rand(100,100000).'.'.$fileObject->extension();
+        $fileName       = time().rand(10, 10000).str_replace(' ', '-', $fileObject->getClientOriginalName());
         $fileDirectory  = 'backend/assets/uploaded-files/'.$directory;
         $fileObject->move($fileDirectory, $fileName);
         return $fileDirectory.$fileName;

@@ -598,6 +598,11 @@
 @section('script')
     <script>
         $(function () {
+            var userType = {!! $_GET['type'] !!};
+
+            setTimeout(function () {
+                $('input[name="user_role_type"][value="'+userType+'"]').click();
+            },500)
             showHideInputFields();
         })
         $(document).on('click', '#usertype-1', function () {
@@ -607,7 +612,7 @@
             showHideInputFields();
         })
         function showHideInputFields() {
-            var selectedUserType = $('input[name="usertype"]:checked').val();
+            var selectedUserType = $('input[name="user_role_type"]:checked').val();
             if (selectedUserType == 0)
             {
                 $('.freelancer-inputs').removeClass('d-none');

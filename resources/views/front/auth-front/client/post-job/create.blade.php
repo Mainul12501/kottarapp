@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="jm_headings">
                 <h5>Post a Gig</h5>
-                <a class="btn btn-primary mypbtn" href="compnay-profile-single.html">Company profile</a>
+                <a class="btn btn-primary mypbtn" href="#">Company profile</a>
             </div>
             <div class="section-divider">
             </div>
@@ -31,7 +31,6 @@
                                 </select>
                             </div>
                         </div>
-
 
                         <div class="col-md-6">
                             <div class="form-group ">
@@ -64,7 +63,16 @@
                                     <option  disabled>Select required skills</option>
                                     {{--                                    <option value=""></option>--}}
                                     @foreach($skills as $skill)
-                                        <option value="{{ $skill->id }}">{{ $skill->skill_name }}</option>
+                                        <option value="{{ $skill->id }}"
+                                                @if(isset($jobPost) && !empty($jobPost->skills))
+                                                    @foreach($jobPost->skills as $selectedSkill)
+
+                                                        @if($selectedSkill->id == $skill->id)
+                                                            selected
+                                                        @endif
+                                                    @endforeach
+                                                @endif>{{ $skill->skill_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -108,72 +116,80 @@
                                 <input type="number" name="budget" value="{{ isset($jobPost) && $jobPost->budget }}" class="form-control" />
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group ">
-                                <label  >Hourly Rate</label>
-                                <input type="number" name="budget_per_hour" value="{{ isset($jobPost) && $jobPost->budget }}" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group ">
-                                <label  >Total Hour</label>
-                                <input type="number" name="total_hour" value="{{ isset($jobPost) && $jobPost->total_hour }}" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group ">
-                                <label  >Freelancer Work Type</label>
-                                <select name="freelancer_working_type" class="form-control select2" id="freelancerWorkType">
-                                    <option value="0" {{ empty($jobPost) ? 'selected' : ($jobPost->freelancer_working_type == 0 ? 'selected' : '') }}>Remotely</option>
-                                    <option value="1" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>Remotely on country</option>
-                                    <option value="2" {{ isset($jobPost) && $jobPost->freelancer_working_type == 2 ? 'selected' : '' }}>On Site</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-none" id="freelancerLocationCountry">
-                            <div class="form-group">
-                                <label >Freelancer Country</label>
-                                <select name="preffered_freelancer_location_country" class="form-control select2" id="">
-                                    <option value="UAE" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>UAE</option>
-                                    <option value="USA" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>USA</option>
-                                    <option value="Saudi Arabia" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>Saudi Arabia</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 on-site-columns">
-                            <div class="form-group">
-                                <label >City</label>
-                                <input type="text" class="form-control" name="job_location_city" value="{{ isset($jobPost) ? $jobPost-> }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6 on-site-columns">
-                            <div class="form-group">
-                                <label >Starting Date</label>
-                                <input type="text" class="form-control" name="job_starting_date" value="{{ isset($jobPost) ? $jobPost->job_starting_date : '' }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6 on-site-columns">
-                            <div class="form-group">
-                                <label >Ending Date</label>
-                                <input type="text" class="form-control" name="job_ending_time" value="{{ isset($jobPost) ? $jobPost->job_ending_time : '' }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >Project Duration</label>
-                                <select name="estimate_project_duration_type" class="form-control select2" id="">
-                                    <option value="1 Day or less" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == '1 Day or less' ? 'selected' : '' }}>1 Day or less</option>
-                                    <option value="2 days to 4 days" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == '2 days to 4 days' ? 'selected' : '' }}>2 days to 4 days</option>
-                                    <option value="Less than a week" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == 'Less than a week' ? 'selected' : '' }}>Less than a week</option>
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col-md-6">--}}
+{{--                            <div class="form-group ">--}}
+{{--                                <label  >Hourly Rate</label>--}}
+{{--                                <input type="number" name="budget_per_hour" value="{{ isset($jobPost) && $jobPost->budget }}" class="form-control" />--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6">--}}
+{{--                            <div class="form-group ">--}}
+{{--                                <label  >Total Hour</label>--}}
+{{--                                <input type="number" name="total_hour" value="{{ isset($jobPost) && $jobPost->total_hour }}" class="form-control" />--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6">--}}
+{{--                            <div class="form-group ">--}}
+{{--                                <label  >Freelancer Work Type</label>--}}
+{{--                                <select name="freelancer_working_type" class="form-control select2" id="freelancerWorkType">--}}
+{{--                                    <option value="0" {{ empty($jobPost) ? 'selected' : ($jobPost->freelancer_working_type == 0 ? 'selected' : '') }}>Remotely</option>--}}
+{{--                                    <option value="1" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>Remotely on country</option>--}}
+{{--                                    <option value="2" {{ isset($jobPost) && $jobPost->freelancer_working_type == 2 ? 'selected' : '' }}>On Site</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6 d-none" id="freelancerLocationCountry">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label >Freelancer Country</label>--}}
+{{--                                <select name="preffered_freelancer_location_country" class="form-control select2" id="">--}}
+{{--                                    <option value="UAE" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>UAE</option>--}}
+{{--                                    <option value="USA" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>USA</option>--}}
+{{--                                    <option value="Saudi Arabia" {{ isset($jobPost) && $jobPost->freelancer_working_type == 1 ? 'selected' : '' }}>Saudi Arabia</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6 on-site-columns">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label >City</label>--}}
+{{--                                <input type="text" class="form-control" name="job_location_city" value="{{ isset($jobPost) ? $jobPost->job_location_city : '' }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6 on-site-columns">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label >Starting Date</label>--}}
+{{--                                <input type="text" class="form-control" name="job_starting_date" value="{{ isset($jobPost) ? $jobPost->job_starting_date : '' }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6 on-site-columns">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label >Ending Date</label>--}}
+{{--                                <input type="text" class="form-control" name="job_ending_time" value="{{ isset($jobPost) ? $jobPost->job_ending_time : '' }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label >Project Duration</label>--}}
+{{--                                <select name="estimate_project_duration_type" class="form-control select2" id="">--}}
+{{--                                    <option value="1 Day or less" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == '1 Day or less' ? 'selected' : '' }}>1 Day or less</option>--}}
+{{--                                    <option value="2 days to 4 days" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == '2 days to 4 days' ? 'selected' : '' }}>2 days to 4 days</option>--}}
+{{--                                    <option value="Less than a week" {{ isset($jobPost) && $jobPost->estimate_project_duration_type == 'Less than a week' ? 'selected' : '' }}>Less than a week</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Want to ask a question?</label>
                                 <select name="job_questions[]" multiple class="form-control select2" id="">
                                     @foreach($questions as $question)
-                                        <option value="{{ $question->id }}">{{ $question->question }}</option>
+                                        <option value="{{ $question->id }}"
+                                                @if(isset($jobPost) && !empty($jobPost->jobPostQuestions))
+                                                    @foreach($jobPost->jobPostQuestions as $selectedQuestion)
+                                                        @if($selectedQuestion->id == $question->id)
+                                                            selected
+                                                        @endif
+                                                    @endforeach
+                                            @endif>{{ $question->question }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -182,8 +198,12 @@
                             <div class="form-group">
                                 <label >Upload Files</label>
                                 <input type="file" name="files[]" multiple />
-                                @if(isset($jobPost))
-
+                                @if(isset($jobPost) && !empty($jobPost->jobPostFiles))
+                                    <ul class="nav">
+                                        @foreach($jobPost->jobPostFiles as $file)
+                                            <li><a href="{{ asset($file->file_url) }}" download="" class="nav-link">file-{{ $loop->iteeration }}</a></li>
+                                        @endforeach
+                                    </ul>
                                 @endif
                             </div>
                         </div>
@@ -217,7 +237,7 @@
 
                 <div class="form-group row">
                     <div  class="col-md-9 ">
-                        <button type="submit" class="btn btn-primary">{{ isset($jobPost) ? 'Update' : 'Submit' }}</button>
+                        <button type="submit" class="btn btn-primary">{{ isset($jobPost) ? 'Update' : 'Create' }} Gig</button>
                     </div>
                 </div>
 
@@ -239,7 +259,11 @@
 @section('script')
     <script>
         $(document).on('change', '#jobCategory', function () {
-            var categoryId = $(this).val();
+            getSubCategoryByCategory();
+        })
+
+        function getSubCategoryByCategory() {
+            var categoryId = $('#jobCategory').val();
             $.ajax({
                 url: baseUrl+'get-skill-sub-categories/'+categoryId,
                 method: "GET",
@@ -257,8 +281,18 @@
                     toastr.error('Someting went wrong. please try again.');
                 }
             })
-        })
+        }
     </script>
+
+    @if(isset($jobPost))
+        <script>
+            $(function () {
+                setTimeout(function () {
+                    getSubCategoryByCategory();
+                }, 1000)
+            })
+        </script>
+    @endif
 
     <script>
         CKEDITOR.replace( 'project_description' );

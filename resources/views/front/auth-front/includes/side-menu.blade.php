@@ -87,19 +87,24 @@
     </ul>
     <h5>Organize and Manage</h5>
     <ul class="user_navigation">
-        <li >
-            <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Job</a>
-        </li>
-        <li>
-            <a href="{{ route('client.job-post-list') }}"><i class="far fa-list-alt"></i> My job listings</a>
-        </li>
-
+        @if(auth()->user()->user_role_type == 1)
+            <li >
+                <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Gig</a>
+            </li>
+            <li>
+                <a href="{{ route('client.job-post-list') }}"><i class="far fa-list-alt"></i> My Gig listings</a>
+            </li>
+        @elseif(auth()->user()->user_role_type == 0)
+            <li>
+                <a href="{{ route('freelancer.browse-all-gigs') }}"><i class="far fa-list-alt"></i> Browse Gigs</a>
+            </li>
+        @endif
 
     </ul>
     <h5>Account</h5>
     <ul class="user_navigation">
         <li>
-            <a href="#"><i class="fas fa-user"></i> Update My Profile</a>
+            <a href="{{ route('profile-update-form') }}"><i class="fas fa-user"></i> Update My Profile</a>
         </li>
         <li >
             <a href="#"><i class="fas fa-key"></i>Change Password</a>

@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\SkillsController;
 use App\Http\Controllers\Admin\JobPostQuestionController;
 
+use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\CustomAuthController;
+
 
 Route::middleware([
     'auth:sanctum',
@@ -56,8 +59,12 @@ Route::middleware([
         Route::get('/client-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
     });
 
+//    Frontend Freelancer section routes
+    Route::prefix('freelancer')->as('freelancer.')->group(function (){
+        Route::get('/browse-all-gigs', [FrontController::class, 'browseAllGigs'])->name('browse-all-gigs');
+    });
     Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
-
+    Route::get('/update-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
 
 });
 

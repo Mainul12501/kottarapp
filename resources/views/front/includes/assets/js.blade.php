@@ -42,7 +42,7 @@
 
 <script>
     $(function () {
-        $('select').select2({
+        $('.select2').select2({
             width: 'resolve',
             placeholder: $(this).attr('data-placeholder'),
         });
