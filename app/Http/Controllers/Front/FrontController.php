@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class FrontController extends Controller
 {
-    public $gigs;
+    public $gigs, $gig;
     public function home ()
     {
         return view('front.home.home');
@@ -36,5 +36,18 @@ class FrontController extends Controller
         } else {
             return back()->with(['error' => 'You are not authorised to view this page.']);
         }
+    }
+
+    public function freelancerGigDetails ($slug)
+    {
+        return view('front.auth-front.freelancer.jobs.browse.details', [
+            'gig'   => JobPost::where('job_post_slug', $slug)->first(),
+        ]);
+    }
+
+    public function applyGig (Request $request, $slug)
+    {
+        $this->gig = JobPost::where('job_post_slug', $slug)->first();
+        return $this->gig;
     }
 }

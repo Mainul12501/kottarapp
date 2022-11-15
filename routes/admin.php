@@ -62,10 +62,12 @@ Route::middleware([
 //    Frontend Freelancer section routes
     Route::prefix('freelancer')->as('freelancer.')->group(function (){
         Route::get('/browse-all-gigs', [FrontController::class, 'browseAllGigs'])->name('browse-all-gigs');
+        Route::get('/gig-details/{slug}', [FrontController::class, 'freelancerGigDetails'])->name('gig-details');
+        Route::post('/apply-gig/{slug}', [FrontController::class, 'applyGig'])->name('apply-gig');
     });
     Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
     Route::get('/update-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
-
+    Route::post('/update-profile', [CustomAuthController::class, 'showUpdateProfile'])->name('update-profile');
 });
 
 

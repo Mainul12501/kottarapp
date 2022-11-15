@@ -18,7 +18,7 @@
 <!-- Header 01
 ================================================== -->
 <header class="header_01 {{ url()->current() !== url('/') ? 'header_inner' : '' }}">
-    <div class="header_main">
+    <div class="header_main {{ request()->segment(1) == 'freelancer' && request()->segment(2) == 'gig-details' ? 'header_job_single_main' : '' }} ">
         @include('front.includes.menu')
         @yield('home-page-header-only')
     </div>

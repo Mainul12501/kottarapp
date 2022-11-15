@@ -28,9 +28,9 @@ class TradeLicenseFile extends Model
             self::$tradeLicenseFile->user_id    = $user->id;
             if (explode('/', $item->getClientMimeType())[0] == 'image')
             {
-                self::$tradeLicenseFile->file_url    = imageUpload($item, 'client-trade-license-files/', 'client-trade-license-file-');
+                self::$tradeLicenseFile->file_url    = imageUpload($item, 'user-document-files/', 'client-trade-license-file-');
             } else {
-                self::$tradeLicenseFile->file_url = fileUploadHelper($item, 'client-trade-license-files/', 'client-trade-license-files-');
+                self::$tradeLicenseFile->file_url = fileUploadHelper($item, 'user-document-files/', 'client-trade-license-files-');
             }
             self::$tradeLicenseFile->file_size   = $item->getSize();
             self::$tradeLicenseFile->file_type   = $item->getClientMimeType();

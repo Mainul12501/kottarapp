@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('user_role_type')->comment('0=>freelancer, 1=>client, 2=>admin_lv, 3=>trainer, 5=>only student')->default(0)->nullable();
             $table->string('account_type')->comment('featured/regular')->nullable();
             $table->tinyInteger('account_status')->comment('0 => pending, 1 => approved, 2 =>blocked, 3=>canceled')->default(0)->nullable();
+            $table->tinyInteger('submit_status')->default(0)->comment('0 => Not submitted; 1 => submitted; 2 => submitted and approved');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();

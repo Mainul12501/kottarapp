@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Front\CustomBuyerSellerRegisterRequest;
+use App\Models\Admin\Skill;
 use App\Models\Admin\TradeLicenseFile;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 
 class CustomAuthController extends Controller
 {
-    public $userDetails, $user, $users;
+    public $userDetails, $user, $users, $authUser;
 
     public function registerViewForClientAndFreelancer()
     {
@@ -41,8 +42,12 @@ class CustomAuthController extends Controller
         DB::transaction(function () use ($request) {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
             $this->user = User::updateOrCreateUser($request, $this->userDetails->id);
+            if (!empty($request->skills))
+            {
+                $this->user->skills()->sync($request->skills);
+            }
             if (!empty($request->trade_license_files)) {
-                TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('trade_license_files'), $this->user);
+                TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
             }
         });
 
@@ -100,24 +105,56 @@ class CustomAuthController extends Controller
 
     public function showUpdateProfileForm()
     {
-        $user = \auth()->user();
-        return $user->createToken('auth_token')->plainTextToken;
         $this->user = User::where('id', auth()->id())->with('userDetails', 'tradeLicenseFiles')->first();
+        $skills = Skill::where('status', 1)->get();
+        $data = [
+            'user'  => $this->user,
+            'skills'    => $skills,
+            'uploadedFiles'     => TradeLicenseFile::where('user_id', $this->user->id)->get(),
+        ];
         if (Str::contains(url()->current(), '/api/'))
         {
             if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1)
             {
-                return json_encode($this->user);
+                return json_encode($data);
             } else {
                 return json_encode(['error' => 'Login as a SME or Student to view this page']);
             }
         } else {
             if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1)
             {
-                return view('front.auth-front.profile.profile-details',['user' => $this->user]);
+                return view('front.auth-front.profile.profile-details',['user' => $this->user, 'skills' => $skills]);
             } else {
                 return back()->with('error', 'Login as a SME or Student to view this page.');
             }
+        }
+    }
+
+    public function showUpdateProfile (Request $request)
+    {
+        $this->authUser = \auth()->user();
+        DB::transaction(function () use ($request) {
+            $this->userDetails = UserDetail::createOrUpdateUserDetails($request, $this->authUser->userDetails->id);
+            $this->user = User::updateOrCreateUser($request, $this->userDetails->id, $this->authUser->id);
+            if (!empty($request->skills))
+            {
+                $this->user->skills()->sync($request->skills);
+            }
+            if (!empty($request->user_document_files)) {
+                TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
+            }
+        });
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            return json_encode([
+                'userDetails'   => $this->userDetails,
+                'user'          => $this->user,
+                'skills'        => $this->user->skills,
+                'uploadedFiles' => $this->user->tradeLicenseFiles,
+                'success'       => 'Your profile updated successfully.'
+            ]);
+        } else {
+            return back()->with('success', 'Your profile updated successfully.');
         }
     }
 }

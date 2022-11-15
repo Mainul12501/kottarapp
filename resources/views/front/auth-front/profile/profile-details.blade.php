@@ -12,101 +12,348 @@
         </div>
         <div class="section-divider">
         </div>
-        <form>
-            <div class="big_form_group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >First Name</label>
-                            <input type="text" class="form-control" placeholder="" value="Dedolp ">
+        <form action="{{ route('update-profile') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @if(auth()->user()->user_role_type == 1)
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >First Name</label>
+                                <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ $user->userDetails->first_name }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Last Name</label>
-                            <input type="text" class="form-control" placeholder="" value="Seofls ">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Last Name</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ $user->userDetails->last_name }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Email</label>
-                            <input type="text" class="form-control" placeholder="" value="Seofls@itsexample.com ">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Email</label>
+                                <input type="text" class="form-control" name="email" placeholder="Enter your company official email" value="{{ $user->email }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Company name</label>
-                            <input type="text" class="form-control" placeholder="" value="Donec Software  ">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" value="{{ $user->userDetails->phone }}">
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="big_form_group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Location</label>
-                            <input type="text" class="form-control" placeholder="" value="London, United Kingdom ">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Profile Image</label>
+                                <input type="file" name="profile_image" class="form-control" accept="image/*">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Job Type</label>
-                            <input type="text" class="form-control" placeholder="" value="Full time ">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Expected Salary</label>
-                            <input type="text" class="form-control" placeholder="" value="$35k - $38k">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Total experience</label>
-                            <input type="text" class="form-control" placeholder="" value="5 Years ">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Company name</label>
+                                <input type="text" class="form-control" placeholder="Enter your company name" name="company_name" value="{{ $user->userDetails->company_name }}">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Location</label>
+                                <select name="country" class="form-control select2" data-placeholder="Select a country">
+                                    <option></option>
+                                    <option value="United Arab Emirates" selected>UNITED ARAB EMIRATES</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Emirate State Name</label>
+                                <select name="emirate_state_name" id="" class="form-control select2" data-placeholder="Select a state Name">
+                                    <option></option>
+                                    <option value="Abu Dhabi" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
+                                    <option value="Dubai" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Dubai' ? 'selected' : '' }}>Dubai</option>
+                                    <option value="Sharjah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
+                                    <option value="Ajman" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ajman' ? 'selected' : '' }}>Ajman</option>
+                                    <option value="Fujairah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
+                                    <option value="Ras Al-Khaimah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ras Al-Khaimah' ? 'selected' : '' }}>Ras Al-Khaimah</option>
+                                    <option value="Umm al Quwain" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Umm al Quwain' ? 'selected' : '' }}>Umm al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <div class="big_form_group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group ">
-                            <label  >Skills</label>
-                            <select class="form-control">
-                                <option>
-                                    PHP
-                                </option>
-                                <option>
-                                    MySQL
-                                </option>
-                                <option>
-                                    API Development
-                                </option>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Established Year</label>
+                                <input type="text" class="form-control" name="company_establish_year" placeholder="Enter Company Established Year" value="{{ $user->userDetails->company_establish_year }}">
+                            </div>
+                        </div>
 
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Are you</label>
+                                <select class="form-control select2" name="company_status" data-placeholder="Select an option">
+                                    <option value="Start-up, Young company" {{ $user->userDetails->company_status == 'Start-up, Young company' ? 'selected' : '' }}>Start-up, Young company</option>
+                                    <option value="Enterprise, Government" {{ $user->userDetails->company_status == 'Enterprise, Government' ? 'selected' : '' }}>Enterprise, Government</option>
+                                    <option value="Entity, Private Entity, Others" {{ $user->userDetails->company_status == 'Entity, Private Entity, Others' ? 'selected' : '' }}>Entity, Private Entity, Others</option>
+                                    <option value="Other" {{ $user->userDetails->company_status == 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Business Name</label>
+                                <input type="text" class="form-control" name="business_name" placeholder="Enter business name" value="{{ $user->userDetails->business_name }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Company Size</label>
+                                <select class="form-control select2" name="company_size" data-placeholder="Select company size">
+                                    <option value="01-10 Person" {{ $user->userDetails->company_size == '01-10 Person' ? 'selected' : '' }}>01-10 Person</option>
+                                    <option value="15-50 Person" {{ $user->userDetails->company_size == '15-50 Person' ? 'selected' : '' }}>15-50 Person</option>
+                                    <option value="51-100 Person" {{ $user->userDetails->company_size == '51-100 Person' ? 'selected' : '' }}>51-100 Person</option>
+                                    <option value="501-1000 Person or more" {{ $user->userDetails->company_size == '501-1000 Person or more' ? 'selected' : '' }}>501-1000 Person or more</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Sector Speciality</label>
+                                <select class="form-control select2" name="company_speciality" data-placeholder="Select company speciality">
+                                    <option value="Event Management" {{ $user->userDetails->company_size == 'Event Management' ? 'selected' : '' }}>Event Management</option>
+                                    <option value="Hospitals" {{ $user->userDetails->company_size == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
+                                    <option value="Ecommerce industry" {{ $user->userDetails->company_size == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
+                                    <option value="Food industry" {{ $user->userDetails->company_size == 'Food industry' ? 'selected' : '' }}>Food industry</option>
+                                    <option value="Automobiles industry" {{ $user->userDetails->company_size == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
+                                    <option value="Power industry" {{ $user->userDetails->company_size == 'Power industry' ? 'selected' : '' }}>Power industry</option>
+                                    <option value="Garment and textiles" {{ $user->userDetails->company_size == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
+                                    <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
+                                    <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Select Services</label>
+                                <select class="form-control select2" name="company_service" data-placeholder="Select company Service">
+                                    <option value="Event Management" {{ $user->userDetails->company_size == 'Event Management' ? 'selected' : '' }}>Event Management</option>
+                                    <option value="Hospitals" {{ $user->userDetails->company_size == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
+                                    <option value="Ecommerce industry" {{ $user->userDetails->company_size == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
+                                    <option value="Food industry" {{ $user->userDetails->company_size == 'Food industry' ? 'selected' : '' }}>Food industry</option>
+                                    <option value="Automobiles industry" {{ $user->userDetails->company_size == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
+                                    <option value="Power industry" {{ $user->userDetails->company_size == 'Power industry' ? 'selected' : '' }}>Power industry</option>
+                                    <option value="Garment and textiles" {{ $user->userDetails->company_size == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
+                                    <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
+                                    <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                            <label  >About Company Description</label>
-                            <textarea class="form-control" ></textarea>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Trade license Number</label>
+                                <input type="text" name="trade_license_no" value="{{ $user->userDetails->trade_license_no }}" class="form-control" placeholder="Trade license Number" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label  >Trade license File</label>
+                                <input type="file" name="user_document_files[]" multiple class="form-control" />
+                                @if(!empty($user))
+
+                                @endif
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            @elseif(auth()->user()->user_role_type == 0)
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >First Name</label>
+                                <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ $user->userDetails->first_name }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Last Name</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ $user->userDetails->last_name }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Email</label>
+                                <input type="text" class="form-control" name="email" placeholder="Enter your company official email" value="{{ $user->email }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" value="{{ $user->userDetails->phone }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Profile Image</label>
+                                <input type="file" name="profile_image" class="form-control" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Date of Birth</label>
+                                <input type="text" class="form-control" name="dob" id="datepicker" value="{{ !empty($user->userDetails->userDetails->dob) ? $user->userDetails->userDetails->dob->format('m/d/Y') : date('m/d/Y') }}" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Gender</label>
+                                <select name="gender" class="form-control select2" data-placeholder="Select your gender">
+                                    <option></option>
+                                    <option value="male" {{ $user->userDetails->gender == 'male' ? "selected" : '' }}>Male</option>
+                                    <option value="female" {{ $user->userDetails->gender == 'female' ? "selected" : '' }}>Female</option>
+                                    <option value="other" {{ $user->userDetails->gender == 'other' ? "selected" : '' }}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Skills</label>
+                                <select name="skills[]" multiple class="form-control select2" data-placeholder="Select your skills">
+                                    <option></option>
+                                    @foreach($skills as $skill)
+                                        <option value="{{ $skill->id }}" @if(!empty($user->skills)) @foreach($user->skills as $userSkill) @if($userSkill->id == $skill->id) selected @endif @endforeach @endif>{{ $skill->skill_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Location</label>
+                                <select name="country" class="form-control select2" data-placeholder="Select a country">
+                                    <option></option>
+                                    <option value="United Arab Emirates" selected>UNITED ARAB EMIRATES</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Emirate State Name</label>
+                                <select name="emirate_state_name" id="" class="form-control select2" data-placeholder="Select a state Name">
+                                    <option></option>
+                                    <option value="Abu Dhabi" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
+                                    <option value="Dubai" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Dubai' ? 'selected' : '' }}>Dubai</option>
+                                    <option value="Sharjah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
+                                    <option value="Ajman" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ajman' ? 'selected' : '' }}>Ajman</option>
+                                    <option value="Fujairah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
+                                    <option value="Ras Al-Khaimah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ras Al-Khaimah' ? 'selected' : '' }}>Ras Al-Khaimah</option>
+                                    <option value="Umm al Quwain" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Umm al Quwain' ? 'selected' : '' }}>Umm al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Are you</label>
+                                <select class="form-control select2" name="company_status" data-placeholder="Select an option">
+                                    <option value="High School Graduate" {{ $user->userDetails->company_status == 'High School Graduate' ? 'selected' : '' }}>High School Graduate</option>
+                                    <option value="University Student" {{ $user->userDetails->company_status == 'University Student' ? 'selected' : '' }}>University Student</option>
+                                    <option value="Fresh Graduate" {{ $user->userDetails->company_status == 'Fresh Graduate' ? 'selected' : '' }}>Fresh Graduate</option>
+                                    <option value="Other" {{ $user->userDetails->company_status == 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >University or School</label>
+                                <select class="form-control select2" name="university_name" data-placeholder="Select University or School">
+                                    <option value="Zayed University - Abu Dhabi" {{ $user->userDetails->university_name == 'Zayed University - Abu Dhabi' ? 'selected' : '' }}>Zayed University - Abu Dhabi</option>
+                                    <option value="Zayed University - Dubai" {{ $user->userDetails->university_name == 'Zayed University - Dubai' ? 'selected' : '' }}>Zayed University - Dubai</option>
+                                    <option value="Khalifa University of Science and Technology" {{ $user->userDetails->university_name == 'Khalifa University of Science and Technology' ? 'selected' : '' }}>Khalifa University of Science and Technology</option>
+                                    <option value="Abu Dhabi University" {{ $user->userDetails->university_name == 'Abu Dhabi University' ? 'selected' : '' }}>Abu Dhabi University</option>
+                                    <option value="United Arab Emirates University" {{ $user->userDetails->university_name == 'United Arab Emirates University' ? 'selected' : '' }}>United Arab Emirates University</option>
+                                    <option value="Fatima College Of Health Sciences" {{ $user->userDetails->university_name == 'Fatima College Of Health Sciences' ? 'selected' : '' }}>Fatima College Of Health Sciences</option>
+                                    <option value="NYU Abu Dhabi" {{ $user->userDetails->university_name == 'NYU Abu Dhabi' ? 'selected' : '' }}>NYU Abu Dhabi</option>
+                                    <option value="Higher Colleges of Technology" {{ $user->userDetails->university_name == 'Higher Colleges of Technology' ? 'selected' : '' }}>Higher Colleges of Technology</option>
+                                    <option value="Sorbonne University, Abu Dhabi" {{ $user->userDetails->university_name == 'Sorbonne University, Abu Dhabi' ? 'selected' : '' }}>Sorbonne University, Abu Dhabi</option>
+                                    <option value="United Arab Emirates University" {{ $user->userDetails->university_name == 'United Arab Emirates University' ? 'selected' : '' }}>United Arab Emirates University</option>
+                                    <option value="Ajman University" {{ $user->userDetails->university_name == 'Ajman University' ? 'selected' : '' }}>Ajman University</option>
+                                    <option value="American University of Sharjah" {{ $user->userDetails->university_name == 'American University of Sharjah' ? 'selected' : '' }}>American University of Sharjah</option>
+                                    <option value="Other" {{ $user->userDetails->university_name == 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Emirates ID No.</label>
+                                <input type="text" name="emirates_id_no" class="form-control" value="{{ $user->userDetails->emirates_id_no }}" placeholder="Emirate ID Number" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label  >Upload Emirates ID</label>
+                                <input type="file" name="user_document_files[]" multiple class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="big_form_group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <label  >About Student</label>
+                                <textarea class="form-control" name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <div class="form-group row">
-                <div  class="col-md-9 ">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div  class="col-md-8 mx-auto text-center">
+                    <button type="submit" class="btn btn-primary">{{ auth()->user()->submit_status == 0 ? 'Submit Profile' : 'Update' }}</button>
                 </div>
             </div>
 
         </form>
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+    </script>
+    <script>
+        CKEDITOR.replace( 'description' );
+    </script>
 @endsection

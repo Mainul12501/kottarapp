@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\JobPostController;
 |
 */
 
+Route::get('/check-exist-user',[CustomAuthController::class, 'checkExistUser'])->name('api.check-exist-user');
 Route::post('/register-user',[CustomAuthController::class, 'registerAndRedirectClientAndFreelancer'])->name('api.front.register');
 Route::post('/login-user',[CustomAuthController::class, 'loginAndRedirectClientAndFreelancer'])->name('api.front.login');
 Route::get('/get-all-skills', [SkillsController::class,'getAllSkills'])->name('get-all-skills');

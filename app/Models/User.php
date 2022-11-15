@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Admin\JobPost;
+use App\Models\Admin\Skill;
 use App\Models\Admin\TradeLicenseFile;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +36,7 @@ class User extends Authenticatable
         'user_details_id',
         'user_role_type',
         'account_type',
-
+        'submit_status'
     ];
 
     /**
@@ -71,18 +72,27 @@ class User extends Authenticatable
 
     public static function updateOrCreateUser($request, $userDetailsId, $id = null)
     {
-        self::$user = new User();
-        self::$user->user_details_id   = $userDetailsId;
-        self::$user->name   = $request->name;
-        self::$user->email   = $request->email;
-        if (!empty($request->password))
-        {
-            self::$user->password   = Hash::make($request->password);
-        }
-        self::$user->user_role_type = $request->user_role_type;
-        self::$user->account_status = empty(User::first()) ? 1 : 0;
-        self::$user->save();
-        return self::$user;
+        return User::updateOrCreate(['id' => $id], [
+            'user_details_id'       => $userDetailsId,
+            'name'                  => empty($id) ? $request->name : User::find($id)->name,
+            'email'                 => $request->email,
+            'password'              => !empty($request->password) ? Hash::make($request->password) : User::find($id)->password,
+            'user_role_type'        => isset($id) ? User::find($id)->user_role_type : $request->user_role_type,
+            'account_status'        => empty(User::first()) ? 1 : 0,
+            'submit_status'         => isset($id) ? (User::find($id)->submit_status == 2 ? 2 : 1) : 0,
+        ]);
+//        self::$user = new User();
+//        self::$user->user_details_id   = $userDetailsId;
+//        self::$user->name   = $request->name;
+//        self::$user->email   = $request->email;
+//        if (!empty($request->password))
+//        {
+//            self::$user->password   = Hash::make($request->password);
+//        }
+//        self::$user->user_role_type = $request->user_role_type;
+//        self::$user->account_status = empty(User::first()) ? 1 : 0;
+//        self::$user->save();
+//        return self::$user;
     }
 
     public function userDetails ()
@@ -98,6 +108,11 @@ class User extends Authenticatable
     public function jobPosts()
     {
         return $this->hasMany(JobPost::class, 'client_user_id');
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
     }
 //
 //    public function applyJobs()

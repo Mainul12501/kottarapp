@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Scopes\Searchable;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -44,8 +45,13 @@ class Skill extends Model
         return $this->belongsTo(SkillSubCategory::class);
     }
 
-//    public function jobPosts()
-//    {
-//        return $this->belongsToMany(JobPost::class);
-//    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function jobPosts()
+    {
+        return $this->belongsToMany(JobPost::class);
+    }
 }

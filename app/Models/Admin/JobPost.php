@@ -188,10 +188,10 @@ class JobPost extends Model
         return $this->hasMany(JobPostFile::class);
     }
 
-//    public function applyJobs()
-//    {
-//        return $this->hasMany(ApplyJob::class);
-//    }
+    public function applyJobs()
+    {
+        return $this->hasMany(ApplyJob::class);
+    }
 
     public function jobPostQuestions()
     {

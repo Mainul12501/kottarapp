@@ -596,15 +596,19 @@
 @endsection
 
 @section('script')
-    <script>
-        $(function () {
-            var userType = {!! $_GET['type'] !!};
+    @if(isset($_GET['page']))
+        <script>
+            $(function () {
+                var userType = {!! $_GET['type'] !!};
 
-            setTimeout(function () {
-                $('input[name="user_role_type"][value="'+userType+'"]').click();
-            },500)
-            showHideInputFields();
-        })
+                setTimeout(function () {
+                    $('input[name="user_role_type"][value="'+userType+'"]').click();
+                },500)
+                showHideInputFields();
+            })
+        </script>
+    @endif
+    <script>
         $(document).on('click', '#usertype-1', function () {
             showHideInputFields();
         })
