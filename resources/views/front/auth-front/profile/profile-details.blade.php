@@ -14,7 +14,7 @@
         </div>
         <form action="{{ route('update-profile') }}" method="post" enctype="multipart/form-data">
             @csrf
-            @if(auth()->user()->user_role_type == 1)
+            @if(auth()->user()->user_role_type == 2)
                 <div class="big_form_group">
                     <div class="row">
                         <div class="col-md-6">
@@ -177,7 +177,7 @@
 
                     </div>
                 </div>
-            @elseif(auth()->user()->user_role_type == 0)
+            @elseif(auth()->user()->user_role_type == 1)
                 <div class="big_form_group">
                     <div class="row">
                         <div class="col-md-6">

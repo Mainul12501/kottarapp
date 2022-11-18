@@ -41,10 +41,10 @@ class CustomAuthController extends Controller
 //        } else {
 //            $validated = $request->validated();
 //        }
-        $existUserForApi = User::where('email', $request->email)->first();
-        if (!empty($existUserForApi)) {
-            return json_encode(['error' => 'Email already exists.']);
-        }
+//        $existUserForApi = User::where('email', $request->email)->first();
+//        if (!empty($existUserForApi)) {
+//            return json_encode(['error' => 'Email already exists.']);
+//        }
 
         DB::transaction(function () use ($request) {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
@@ -64,7 +64,7 @@ class CustomAuthController extends Controller
             if (Str::contains(url()->current(), '/api/')) {
                 return response()->json(['user' => $this->user,'skills' => $this->user->skills,'docFiles' => $this->user->tradeLicenseFiles, 'userDetails' => $this->userDetails, 'auth_token' => $this->user->createToken('auth_token')->plainTextToken]);
             } else {
-                if ($this->user->user_role_type == 0 || $this->user->user_role_type == 1) {
+                if ($this->user->user_role_type == 1 || $this->user->user_role_type == 2) {
                     return redirect()->route('client.dashboard')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
 //                    return redirect()->route('front.home')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
                 } else {
@@ -103,7 +103,7 @@ class CustomAuthController extends Controller
                 $user = Auth::user();
                 return response()->json(['user' => $user, 'auth_token' => $user->createToken('auth_token')->plainTextToken]);
             } else {
-                if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1) {
+                if (auth()->user()->user_role_type == 1 || auth()->user()->user_role_type == 2) {
                     return redirect()->route('client.dashboard')->with('success', 'You are successfully logged in.');
                 } else {
                     Auth::logout();
@@ -131,14 +131,14 @@ class CustomAuthController extends Controller
         ];
         if (Str::contains(url()->current(), '/api/'))
         {
-            if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1)
+            if (auth()->user()->user_role_type == 1 || auth()->user()->user_role_type == 2)
             {
-                return json_encode($data);
+                return response()->json($data);
             } else {
-                return json_encode(['error' => 'Login as a SME or Student to view this page']);
+                return response()->json(['error' => 'Login as a SME or Student to view this page']);
             }
         } else {
-            if (auth()->user()->user_role_type == 0 || auth()->user()->user_role_type == 1)
+            if (auth()->user()->user_role_type == 1 || auth()->user()->user_role_type == 2)
             {
                 return view('front.auth-front.profile.profile-details',['user' => $this->user, 'skills' => $skills]);
             } else {
@@ -163,7 +163,7 @@ class CustomAuthController extends Controller
         });
         if (Str::contains(url()->current(), '/api/'))
         {
-            return json_encode([
+            return response()->json([
                 'userDetails'   => $this->userDetails,
                 'user'          => $this->user,
                 'skills'        => $this->user->skills,

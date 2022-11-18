@@ -19,12 +19,12 @@ class FrontController extends Controller
     public function browseAllGigs ()
     {
         $this->gigs = JobPost::where('status', '1')->latest()->with('skills','jobPostQuestions', 'jobPostFiles')->get();
-        if (auth()->user()->user_role_id == 0)
+        if (auth()->user()->user_role_type == 1)
         {
             $this->gigs = JobPost::where('status', '1')->latest()->with('skills','jobPostQuestions', 'jobPostFiles')->get();
             if (Str::contains(url()->current(), '/api/'))
             {
-                return json_encode($this->gigs);
+                return response()->json($this->gigs);
             }else {
                 return view('front.auth-front.freelancer.jobs.browse.jobs', [
                     'gigs'  => $this->gigs,

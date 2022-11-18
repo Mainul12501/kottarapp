@@ -35,11 +35,11 @@
                             <div class="com_class_form">
                                 <div class="form-group user_type_cont">
                                     <label class="user_type" for="usertype-1">
-                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 0 ? 'checked' : '' }} name="user_role_type" id="usertype-1" value="0" >
+                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 1 ? 'checked' : '' }} name="user_role_type" id="usertype-1" value="1" >
                                         <span><i class="far fa-user"></i> Student</span>
                                     </label>
                                     <label class="user_type" for="usertype-2">
-                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 1 ? 'checked' : '' }} name="user_role_type" id="usertype-2" value="1" >
+                                        <input type="radio" {{ isset($_GET['type']) && $_GET['type'] == 2 ? 'checked' : '' }} name="user_role_type" id="usertype-2" value="2" >
                                         <span><i class="fas fa-landmark"></i> SME</span>
                                     </label>
                                 </div>
@@ -596,7 +596,7 @@
 @endsection
 
 @section('script')
-    @if(isset($_GET['page']))
+    @if(isset($_GET['type']))
         <script>
             $(function () {
                 var userType = {!! $_GET['type'] !!};
@@ -617,11 +617,11 @@
         })
         function showHideInputFields() {
             var selectedUserType = $('input[name="user_role_type"]:checked').val();
-            if (selectedUserType == 0)
+            if (selectedUserType == 1)
             {
                 $('.freelancer-inputs').removeClass('d-none');
                 $('.client-inputs').addClass('d-none');
-            } else if (selectedUserType == 1)
+            } else if (selectedUserType == 2)
             {
                 $('.client-inputs').removeClass('d-none');
                 $('.freelancer-inputs').addClass('d-none');

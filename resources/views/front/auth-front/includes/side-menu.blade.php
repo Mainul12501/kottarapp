@@ -87,14 +87,14 @@
     </ul>
     <h5>Organize and Manage</h5>
     <ul class="user_navigation">
-        @if(auth()->user()->user_role_type == 1)
+        @if(auth()->user()->user_role_type == 2)
             <li >
                 <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Gig</a>
             </li>
             <li>
                 <a href="{{ route('client.job-post-list') }}"><i class="far fa-list-alt"></i> My Gig listings</a>
             </li>
-        @elseif(auth()->user()->user_role_type == 0)
+        @elseif(auth()->user()->user_role_type == 1)
             <li>
                 <a href="{{ route('freelancer.browse-all-gigs') }}"><i class="far fa-list-alt"></i> Browse Gigs</a>
             </li>

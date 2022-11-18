@@ -32,12 +32,14 @@ class CreateNewUser implements CreatesNewUsers
 
         $userDetails = UserDetail::saveUserDetailsFromJetStream($input);
 
-        return User::create([
+        $user = User::create([
             'user_details_id'   => $userDetails,
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'user_role_type'    => 2,
+            'user_role_type'    => 3,
         ]);
+        $user->roles()->sync(3);
+        return $user;
     }
 }
