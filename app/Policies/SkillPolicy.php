@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Skill;
+use App\Models\Admin\Skill;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SkillPolicy

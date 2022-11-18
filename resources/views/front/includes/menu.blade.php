@@ -36,34 +36,34 @@
                             <a href="javascript:void(0)">Student</a>
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="job-seeker-dashboard.html">Job dashboard</a>
+                                    <a href="{{ route('client.dashboard') }}">dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="browse-jobs.html">Browse Gigs</a>
-                                </li>
-
-                                <li>
-                                    <a href="job-single.html">Job single</a>
+                                    <a href="">Browse Gigs</a>
                                 </li>
 
                                 <li>
-                                    <a href="my-stared-jobs.html">My stared jobs</a>
-                                </li>
-                                <li>
-                                    <a href="staff-profile-single.html">Job seeker profile</a>
-                                </li>
-                                <li>
-                                    <a href="edit-profile.html">Update my profile</a>
+                                    <a href="">Job single</a>
                                 </li>
 
                                 <li>
-                                    <a href="edit-password.html">Change password</a>
+                                    <a href="">My stared jobs</a>
                                 </li>
                                 <li>
-                                    <a href="registration.html">Registration</a>
+                                    <a href="">Job seeker profile</a>
                                 </li>
                                 <li>
-                                    <a href="browse-companies.html">Browse companies</a>
+                                    <a href="">Update my profile</a>
+                                </li>
+
+                                <li>
+                                    <a href="">Change password</a>
+                                </li>
+                                <li>
+                                    <a href="">Registration</a>
+                                </li>
+                                <li>
+                                    <a href="">Browse companies</a>
                                 </li>
                             </ul>
                         </li>
@@ -82,20 +82,20 @@
                                     <a href="{{ route('client.job-post.index') }}">My Jobs listing</a>
                                 </li>
                                 <li>
-                                    <a href="find-staff.html">Find staff</a>
+                                    <a href="">Find staff</a>
                                 </li>
                                 <li>
-                                    <a href="compnay-profile-single.html">Company profile</a>
+                                    <a href="">Company profile</a>
                                 </li>
 
                                 <li>
-                                    <a href="emp-edit-profile.html">Update profile</a>
+                                    <a href="">Update profile</a>
                                 </li>
                                 <li>
-                                    <a href="emp-edit-password.html">Change password</a>
+                                    <a href="">Change password</a>
                                 </li>
                                 <li>
-                                    <a href="emp-registration.html">Employer registration</a>
+                                    <a href="">Employer registration</a>
                                 </li>
                             </ul>
                         </li>

@@ -23,7 +23,9 @@ class JobPostController extends Controller
      */
     public function index()
     {
-
+        return view('backend.job-post.job-manage.index', [
+        'jobs'  => JobPost::latest()->get(),
+    ]);
     }
 
     /**
@@ -158,5 +160,14 @@ class JobPostController extends Controller
         return view('front.auth-front.client.post-job.index',[
             'jobPosts'  => JobPost::where('client_user_id', auth()->id())->get(),
         ]);
+    }
+
+    public function approveJob ($id)
+    {
+        $this->jobPost = JobPost::find($id);
+        if ($this->jobPost->status == 0)
+        {
+
+        }
     }
 }

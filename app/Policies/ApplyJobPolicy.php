@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\ApplyJob;
+use App\Models\Admin\ApplyJob;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ApplyJobPolicy

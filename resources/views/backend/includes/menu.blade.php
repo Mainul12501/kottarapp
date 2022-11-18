@@ -48,6 +48,9 @@
                         <li>
                             <a href="{{ route('roles.index') }}">Role</a>
                         </li>
+                        <li>
+                            <a href="{{ route('users.index') }}">User</a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -80,6 +83,9 @@
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="{{ route('job-questions.index') }}">Job Questions</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('client.job-post.index') }}">Job Approval</a>
                         </li>
                     </ul>
                 </div>

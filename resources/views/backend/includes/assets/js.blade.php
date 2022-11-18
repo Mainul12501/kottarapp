@@ -29,5 +29,5 @@
     {{ Session::forget('error') }}
 @endif
 
-
+@livewireScripts
 @yield('script')

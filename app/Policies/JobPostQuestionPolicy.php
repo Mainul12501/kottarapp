@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\JobPostQuestion;
+use App\Models\Admin\JobPostQuestion;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class JobPostQuestionPolicy

@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\JobPostFile;
+use App\Models\Admin\JobPostFile;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class JobPostFilePolicy

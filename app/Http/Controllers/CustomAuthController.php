@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Front\CustomBuyerSellerRegisterRequest;
+use App\Http\Requests\Front\CustomerBuyerSellerLoginRequest;
 use App\Models\Admin\Skill;
 use App\Models\Admin\TradeLicenseFile;
 use App\Models\User;
@@ -34,19 +35,26 @@ class CustomAuthController extends Controller
 //        {
 //            return json_encode(['error' => 'Email already exists.']);
 //        }
+//        if (Str::contains(url()->current(), '/api/'))
+//        {
+//            $validated = $request->safe()->except(['email']);
+//        } else {
+//            $validated = $request->validated();
+//        }
         $existUserForApi = User::where('email', $request->email)->first();
         if (!empty($existUserForApi)) {
             return json_encode(['error' => 'Email already exists.']);
         }
-        $validated = $request->validated();
+
         DB::transaction(function () use ($request) {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
             $this->user = User::updateOrCreateUser($request, $this->userDetails->id);
+            $this->user->roles()->sync($request->user_role_type);
             if (!empty($request->skills))
             {
                 $this->user->skills()->sync($request->skills);
             }
-            if (!empty($request->trade_license_files)) {
+            if (!empty($request->user_document_files)) {
                 TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
             }
         });
@@ -54,7 +62,7 @@ class CustomAuthController extends Controller
         if (isset($this->user)) {
             Auth::login($this->user);
             if (Str::contains(url()->current(), '/api/')) {
-                return response()->json(['user' => $this->user, 'auth_token' => $this->user->createToken('auth_token')->plainTextToken]);
+                return response()->json(['user' => $this->user,'skills' => $this->user->skills,'docFiles' => $this->user->tradeLicenseFiles, 'userDetails' => $this->userDetails, 'auth_token' => $this->user->createToken('auth_token')->plainTextToken]);
             } else {
                 if ($this->user->user_role_type == 0 || $this->user->user_role_type == 1) {
                     return redirect()->route('client.dashboard')->with('success', 'Your account created successfully. Complete your profile and get your account approved');
@@ -74,12 +82,21 @@ class CustomAuthController extends Controller
         }
     }
 
-    public function loginAndRedirectClientAndFreelancer(Request $request)
+    public function loginAndRedirectClientAndFreelancer(CustomerBuyerSellerLoginRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+//        if (Str::contains(url()->current(), '/api/'))
+//        {
+//            if (empty($request->email))
+//            {
+//                return json_encode(['error' => 'Please provide email.']);
+//            }
+//        } else {
+//
+//        }
+//        $this->validate($request, [
+//            'email' => 'required|email',
+//            'password' => 'required',
+//        ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
             if (Str::contains(url()->current(), '/api/')) {
@@ -96,7 +113,7 @@ class CustomAuthController extends Controller
 
         }
         if (Str::contains(url()->current(), '/api/')) {
-            return response()->json(['error' => 'error', 'message' => 'Something went wrong. Please try again.'], 401);
+            return response()->json(['error' => 'Something went wrong. Please try again.']);
         } else {
 
             return redirect()->route('front.register')->with('error', 'Something went wrong. Please try again');

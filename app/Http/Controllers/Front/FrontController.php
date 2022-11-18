@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\ApplyJob;
 use App\Models\Admin\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -48,6 +49,12 @@ class FrontController extends Controller
     public function applyGig (Request $request, $slug)
     {
         $this->gig = JobPost::where('job_post_slug', $slug)->first();
-        return $this->gig;
+        $applyJob = ApplyJob::applyJob($request, $this->gig);
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            return response()->json(['success' => 'You successfully applied for this job.', 'apply_job' => $applyJob]);
+        } else {
+            return redirect()->route('freelancer.browse-all-gigs')->with('success' , 'You successfully applied for this job.');
+        }
     }
 }

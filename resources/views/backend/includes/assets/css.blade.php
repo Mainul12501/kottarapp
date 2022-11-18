@@ -30,4 +30,5 @@
         left: 30px;
     }
 </style>
+@livewireStyles
 @yield('style')
