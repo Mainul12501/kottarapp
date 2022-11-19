@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->string('bank_account_no')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('emirates_id_no')->nullable();
-            $table->longText('freelancer_description')->nullable();
+            $table->longText('description')->nullable();
             $table->tinyInteger('Working_type')->nullable();
             $table->string('company_name')->nullable();
             $table->string('company_establish_year')->nullable();

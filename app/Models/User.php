@@ -71,13 +71,17 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function updateUser($request, $id)
+    public static function updateUser($request, $id)
     {
-        $user = User::find($id)->update([
-            'name'  => $request->name,
-            'email'  => $request->email,
-        ]);
-        $user->roles()->detech();
+//        $user = User::find($id)->update([
+//            'name'  => $request->name,
+//            'email'  => $request->email,
+//        ]);
+        $user   = User::find($id);
+        $user->name     = $request->name;
+        $user->email     = $request->email;
+        $user->save();
+//        $user->roles()->detech();
         $user->roles()->sync($request->roles);
     }
 

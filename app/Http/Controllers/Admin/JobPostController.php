@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Front\JobPostFormRequest;
 use App\Models\Admin\JobPost;
 use App\Models\Admin\JobPostFile;
 use App\Models\Admin\JobPostQuestion;
@@ -23,9 +24,20 @@ class JobPostController extends Controller
      */
     public function index()
     {
-        return view('backend.job-post.job-manage.index', [
-        'jobs'  => JobPost::latest()->get(),
-    ]);
+        $this->jobPosts = JobPost::where('client_user_id', auth()->id())->latest()->get();
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if ($this->jobPosts->isEmpty())
+            {
+                return response()->json(['error' => 'No gigs found.']);
+            }else {
+                return response()->json($this->jobPosts);
+            }
+        } else {
+            return view('backend.job-post.job-manage.index', [
+                'jobs'  => $this->jobPosts,
+            ]);
+        }
     }
 
     /**
@@ -39,6 +51,7 @@ class JobPostController extends Controller
         {
             if (Str::contains(url()->current(), '/api/'))
             {
+
                 return response()->json([
                     'skillCategories' => SkillCategory::where('status', 1)->latest()->get(),
                     'skills'        => Skill::where('status', 1)->get(),
@@ -52,6 +65,10 @@ class JobPostController extends Controller
                 ]);
             }
         } else {
+            if (Str::contains(url()->current(), '/api/'))
+            {
+                return response()->json(['error' => 'Your account has not approved yet.']);
+            }
             return redirect()->back()->with('error', 'Your account has not approved yet.');
         }
     }
@@ -62,7 +79,7 @@ class JobPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JobPostFormRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -75,7 +92,7 @@ class JobPostController extends Controller
             {
                 $this->jobPost->jobPostQuestions()->sync($request->job_questions);
             }
-            if (!empty($request->file('files')))
+            if ($request->hasFile('files'))
             {
                 JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
             }
@@ -111,7 +128,15 @@ class JobPostController extends Controller
      */
     public function edit($id)
     {
-
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            return response()->json([
+                'skillCategories'   => SkillCategory::where('status', 1)->latest()->get(),
+                'skills'            => Skill::where('status', 1)->get(),
+                'questions'         => JobPostQuestion::where('status', 1)->get(),
+                'jobPost'           => JobPost::findOrFail($id),
+            ]);
+        }
         return view('front.auth-front.client.post-job.create', [
             'skillCategories'   => SkillCategory::where('status', 1)->latest()->get(),
             'skills'            => Skill::where('status', 1)->get(),
@@ -157,8 +182,18 @@ class JobPostController extends Controller
 
     public function userWiseJobPost ()
     {
+        $this->jobPosts = JobPost::where('client_user_d', auth()->id())->get();
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if ($this->jobPosts->isEmpty())
+            {
+                return response()->json(['error' => 'No gigs found.']);
+            } else {
+                return response()->json($this->jobPosts);
+            }
+        }
         return view('front.auth-front.client.post-job.index',[
-            'jobPosts'  => JobPost::where('client_user_id', auth()->id())->get(),
+            'jobPosts'  => $this->jobPosts,
         ]);
     }
 

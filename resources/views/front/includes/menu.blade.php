@@ -195,11 +195,11 @@
                             <button class="btn btn-primary">Login / Sign up <i class="fas fa-caret-down"></i></button>
                             <div class="login_pop_box">
                                 <span class="twobtn_cont">
-                                    <a class="signjs_btn" href="{{ route('front.register') }}?type=0">
+                                    <a class="signjs_btn" href="{{ route('front.register') }}?type=1">
                                         <span>Student</span> Sign up
                                         <i class="far fa-user"></i>
                                     </a>
-                                    <a class=" signrs_btn" href="{{ route('front.register') }}?type=1">
+                                    <a class=" signrs_btn" href="{{ route('front.register') }}?type=2">
                                         <span>SME</span> Sign up
                                         <i class="fas fa-landmark"></i>
                                     </a>

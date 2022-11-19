@@ -30,22 +30,6 @@ class CustomAuthController extends Controller
 
     public function registerAndRedirectClientAndFreelancer(CustomBuyerSellerRegisterRequest $request)
     {
-//        $this->users = User::select('email')->get()->toArray();
-//        if (in_array($request->email, $this->users))
-//        {
-//            return json_encode(['error' => 'Email already exists.']);
-//        }
-//        if (Str::contains(url()->current(), '/api/'))
-//        {
-//            $validated = $request->safe()->except(['email']);
-//        } else {
-//            $validated = $request->validated();
-//        }
-//        $existUserForApi = User::where('email', $request->email)->first();
-//        if (!empty($existUserForApi)) {
-//            return json_encode(['error' => 'Email already exists.']);
-//        }
-
         DB::transaction(function () use ($request) {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
             $this->user = User::updateOrCreateUser($request, $this->userDetails->id);
@@ -54,7 +38,7 @@ class CustomAuthController extends Controller
             {
                 $this->user->skills()->sync($request->skills);
             }
-            if (!empty($request->user_document_files)) {
+            if ($request->hasFile('user_document_files')) {
                 TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
             }
         });
@@ -113,7 +97,7 @@ class CustomAuthController extends Controller
 
         }
         if (Str::contains(url()->current(), '/api/')) {
-            return response()->json(['error' => 'Something went wrong. Please try again.']);
+            return response()->json(['error' => 'Email and Password does not match . Please try again.']);
         } else {
 
             return redirect()->route('front.register')->with('error', 'Something went wrong. Please try again');
@@ -149,6 +133,7 @@ class CustomAuthController extends Controller
 
     public function showUpdateProfile (Request $request)
     {
+
         $this->authUser = \auth()->user();
         DB::transaction(function () use ($request) {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request, $this->authUser->userDetails->id);
