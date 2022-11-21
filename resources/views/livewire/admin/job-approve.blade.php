@@ -32,7 +32,7 @@
 {{--                    {{ $job->status == 1 ? 'Approved' : '' }}--}}
 {{--                    {{ $job->status == 2 ? 'Completed' : '' }}--}}
 {{--                    {{ $job->status == 3 ? 'Rejected' : '' }}--}}
-                    <select class="form-control" wire:model="job_status" wire:change="changeStatus({{ $job->id }},$event.target.value)" id="">
+                    <select class="form-control" {{--wire:model="job_status"--}} wire:change="changeStatus({{ $job->id }},$event.target.value)" id="">
                         <option value="0" {{ $job->status == 0 ? 'selected' : '' }}>Pending</option>
                         <option value="1" {{ $job->status == 1 ? 'selected' : '' }}>Approved</option>
                         <option value="2" {{ $job->status == 2 ? 'selected' : '' }}>Completed</option>

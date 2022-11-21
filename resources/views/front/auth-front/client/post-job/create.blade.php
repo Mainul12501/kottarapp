@@ -29,6 +29,7 @@
                                         <option value="{{ $skillCategory->id }}" {{ isset($jobPost) && $jobPost->skill_category_id == $skillCategory->id ? 'selected' : '' }}>{{ $skillCategory->category_name }}</option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">{{ $errors->has('skill_category_id') ? $errors->first('skill_category_id') : '' }}</span>
                             </div>
                         </div>
 
@@ -41,6 +42,7 @@
                                         <option value="{{ $jobPost->skillSubCategory->sub_category_name }}"></option>
                                     @endif
                                 </select>
+                                <span class="text-danger">{{ $errors->has('skill_sub_category_id') ? $errors->first('skill_sub_category_id') : '' }}</span>
                             </div>
                         </div>
 
@@ -48,6 +50,7 @@
                             <div class="form-group">
                                 <label >Job Title</label>
                                 <input type="text" name="project_title" value="{{ isset($jobPost) ? $jobPost->project_title : '' }}" class="form-control" placeholder="Write Job Title Here" />
+                                <span class="text-danger">{{ $errors->has('project_title') ? $errors->first('project_title') : '' }}</span>
                             </div>
                         </div>
 
@@ -75,6 +78,7 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">{{ $errors->has('required_skills') ? $errors->first('required_skills') : '' }}</span>
                             </div>
                         </div>
 
@@ -87,6 +91,7 @@
                                     <option value="2" {{ isset($jobPost) && $jobPost->experience_level == 2 ? 'selected' : '' }}>Experienced</option>
                                     <option value="3" {{ isset($jobPost) && $jobPost->experience_level == 3 ? 'selected' : '' }}>Expert</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('experience_level') ? $errors->first('experience_level') : '' }}</span>
                             </div>
                         </div>
 
@@ -94,6 +99,7 @@
                             <div class="form-group ">
                                 <label  >Project Description</label>
                                 <textarea class="form-control" name="project_description" id="editor">{!! isset($jobPost) && $jobPost->project_description !!}</textarea>
+                                <span class="text-danger">{{ $errors->has('project_description') ? $errors->first('project_description') : '' }}</span>
                             </div>
                         </div>
 
@@ -108,12 +114,14 @@
                                     <option value="0" {{ isset($jobPost) && $jobPost->experience_level == 0 ? 'selected' : '' }}>Fixed</option>
                                     <option value="1" {{ isset($jobPost) && $jobPost->experience_level == 1 ? 'selected' : '' }}>Per Hour</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('budget_type') ? $errors->first('budget_type') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Budget</label>
                                 <input type="number" name="budget" value="{{ isset($jobPost) && $jobPost->budget }}" class="form-control" />
+                                <span class="text-danger">{{ $errors->has('budget') ? $errors->first('budget') : '' }}</span>
                             </div>
                         </div>
 {{--                        <div class="col-md-6">--}}
@@ -192,12 +200,14 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">{{ $errors->has('job_questions') ? $errors->first('job_questions') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Upload Files</label>
                                 <input type="file" name="files[]" multiple />
+                                <span class="text-danger">{{ $errors->has('files') ? $errors->first('files') : '' }}</span>
                                 @if(isset($jobPost) && !empty($jobPost->jobPostFiles))
                                     <ul class="nav">
                                         @foreach($jobPost->jobPostFiles as $file)

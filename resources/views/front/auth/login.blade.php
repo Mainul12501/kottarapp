@@ -17,10 +17,12 @@
                                 <div class="form-group">
 
                                     <input class="form-control" type="text" name="email" size="40" placeholder="email address * ">
+                                    <span class="text-danger">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>
                                 </div>
                                 <div class="form-group">
 
                                     <input class="form-control" type="password" name="password" placeholder=" Password * ">
+                                    <span class="text-danger">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>
                                 </div>
 
 
@@ -33,7 +35,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <a class="lost_password" href="lost-password.html"> Lost your password?</a>
+                                    <a class="lost_password" href="{{ route('password.request') }}"> Lost your password?</a>
                                 </div>
                             </div>
                         </form>

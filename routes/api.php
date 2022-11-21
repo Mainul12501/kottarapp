@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->as('api.')->group(function (){
     Route::get('/update-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
+    Route::post('/update-profile', [CustomAuthController::class, 'showUpdateProfile'])->name('update-profile');
+
     Route::apiResource('/client/job-post', JobPostController::class);
     Route::get('/client/job-post-form', [JobPostController::class, 'create'])->name('job-post-form');
+    Route::get('/client/job-post-edit/{id}', [JobPostController::class, 'edit'])->name('job-post-form');
 });

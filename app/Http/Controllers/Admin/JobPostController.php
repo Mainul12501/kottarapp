@@ -103,11 +103,17 @@ class JobPostController extends Controller
         }
         if(Str::contains(url()->current(), '/api/'))
         {
-            if ($this->jobPost->isEmpty())
+            if ($this->jobPost)
             {
-                return response()->json(['error' =>'Something went wrong. Please try again.']);
+                return response()->json([
+                    'gig'   => $this->jobPost,
+                    'skills'    => $this->jobPost->skills,
+                    'questions' => $this->jobPost->jobPostQuestions,
+                    'files'     => $this->jobPost->jobPostFiles,
+                ]);
+
             } else {
-                return response()->json($this->jobPost);
+                return response()->json(['error' =>'Something went wrong. Please try again.']);
             }
         } else {
             if (isset($this->jobPost))
@@ -164,7 +170,7 @@ class JobPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -212,7 +218,8 @@ class JobPostController extends Controller
         $this->jobPost = JobPost::find($id);
         if ($this->jobPost->status == 0)
         {
-
+            $this->jobPost->status = 1;
         }
+
     }
 }

@@ -48,13 +48,14 @@
 {{--                                            <a href="" onclick="event.preventDefault(); document.getElementById('deletePermission{{ $permission->id }}').submit();" class="btn btn-danger btn-sm">--}}
 {{--                                                <i class="dripicons-trash"></i>--}}
 {{--                                            </a>--}}
-                                            <form action="{{ route('roles.destroy', $role->id) }}" method="post" style="display: inline-block" onsubmit="return confirm('Are you sure to delete this Role?');">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger btn-sm py-0 px-1">
-                                                    <i class="dripicons-trash"></i>
-                                                </button>
-                                            </form>
+
+{{--                                            <form action="{{ route('roles.destroy', $role->id) }}" method="post" style="display: inline-block" onsubmit="return confirm('Are you sure to delete this Role?');">--}}
+{{--                                                @csrf--}}
+{{--                                                @method('delete')--}}
+{{--                                                <button type="submit" class="btn btn-danger btn-sm py-0 px-1">--}}
+{{--                                                    <i class="dripicons-trash"></i>--}}
+{{--                                                </button>--}}
+{{--                                            </form>--}}
                                         </td>
                                     </tr>
                                 @endforeach

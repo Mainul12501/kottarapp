@@ -21,36 +21,42 @@
                             <div class="form-group ">
                                 <label  >First Name</label>
                                 <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ $user->userDetails->first_name }}">
+                                <span class="text-danger">{{ $errors->has('first_name') ? $errors->first('first_name') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Last Name</label>
                                 <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ $user->userDetails->last_name }}">
+                                <span class="text-danger">{{ $errors->has('last_name') ? $errors->first('last_name') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Email</label>
-                                <input type="text" class="form-control" name="email" placeholder="Enter your company official email" value="{{ $user->email }}">
+                                <input type="text" class="form-control disabled" name="email" placeholder="Enter your company official email" value="{{ $user->email }}">
+                                <span class="text-danger">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Phone</label>
                                 <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" value="{{ $user->userDetails->phone }}">
+                                <span class="text-danger">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label>Profile Image</label>
                                 <input type="file" name="profile_image" class="form-control" accept="image/*">
+                                <span class="text-danger">{{ $errors->has('profile_image') ? $errors->first('profile_image') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Company name</label>
                                 <input type="text" class="form-control" placeholder="Enter your company name" name="company_name" value="{{ $user->userDetails->company_name }}">
+                                <span class="text-danger">{{ $errors->has('company_name') ? $errors->first('company_name') : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -64,6 +70,7 @@
                                     <option></option>
                                     <option value="United Arab Emirates" selected>UNITED ARAB EMIRATES</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('country') ? $errors->first('country') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -79,6 +86,7 @@
                                     <option value="Ras Al-Khaimah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ras Al-Khaimah' ? 'selected' : '' }}>Ras Al-Khaimah</option>
                                     <option value="Umm al Quwain" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Umm al Quwain' ? 'selected' : '' }}>Umm al Quwain</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('emirate_state_name') ? $errors->first('emirate_state_name') : '' }}</span>
                             </div>
                         </div>
 
@@ -86,6 +94,7 @@
                             <div class="form-group ">
                                 <label  >Established Year</label>
                                 <input type="text" class="form-control" name="company_establish_year" placeholder="Enter Company Established Year" value="{{ $user->userDetails->company_establish_year }}">
+                                <span class="text-danger">{{ $errors->has('company_establish_year') ? $errors->first('company_establish_year') : '' }}</span>
                             </div>
                         </div>
 
@@ -98,6 +107,7 @@
                                     <option value="Entity, Private Entity, Others" {{ $user->userDetails->company_status == 'Entity, Private Entity, Others' ? 'selected' : '' }}>Entity, Private Entity, Others</option>
                                     <option value="Other" {{ $user->userDetails->company_status == 'Other' ? 'selected' : '' }}>Other</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('company_status') ? $errors->first('company_status') : '' }}</span>
                             </div>
                         </div>
 
@@ -105,6 +115,7 @@
                             <div class="form-group ">
                                 <label  >Business Name</label>
                                 <input type="text" class="form-control" name="business_name" placeholder="Enter business name" value="{{ $user->userDetails->business_name }}">
+                                <span class="text-danger">{{ $errors->has('business_name') ? $errors->first('business_name') : '' }}</span>
                             </div>
                         </div>
 
@@ -117,6 +128,7 @@
                                     <option value="51-100 Person" {{ $user->userDetails->company_size == '51-100 Person' ? 'selected' : '' }}>51-100 Person</option>
                                     <option value="501-1000 Person or more" {{ $user->userDetails->company_size == '501-1000 Person or more' ? 'selected' : '' }}>501-1000 Person or more</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('company_size') ? $errors->first('company_size') : '' }}</span>
                             </div>
                         </div>
 
@@ -134,6 +146,7 @@
                                     <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
                                     <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('company_speciality') ? $errors->first('company_speciality') : '' }}</span>
                             </div>
                         </div>
 
@@ -151,6 +164,7 @@
                                     <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
                                     <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('company_service') ? $errors->first('company_service') : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -162,6 +176,7 @@
                             <div class="form-group ">
                                 <label  >Trade license Number</label>
                                 <input type="text" name="trade_license_no" value="{{ $user->userDetails->trade_license_no }}" class="form-control" placeholder="Trade license Number" />
+                                <span class="text-danger">{{ $errors->has('trade_license_no') ? $errors->first('trade_license_no') : '' }}</span>
                             </div>
                         </div>
 
@@ -169,6 +184,7 @@
                             <div class="form-group">
                                 <label  >Trade license File</label>
                                 <input type="file" name="user_document_files[]" multiple class="form-control" />
+                                <span class="text-danger">{{ $errors->has('user_document_files') ? $errors->first('user_document_files') : '' }}</span>
                                 @if(!empty($user))
 
                                 @endif
@@ -184,30 +200,35 @@
                             <div class="form-group ">
                                 <label  >First Name</label>
                                 <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ $user->userDetails->first_name }}">
+                                <span class="text-danger">{{ $errors->has('first_name') ? $errors->first('first_name') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Last Name</label>
                                 <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ $user->userDetails->last_name }}">
+                                <span class="text-danger">{{ $errors->has('last_name') ? $errors->first('last_name') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Email</label>
                                 <input type="text" class="form-control" name="email" placeholder="Enter your company official email" value="{{ $user->email }}">
+                                <span class="text-danger">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Phone</label>
                                 <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" value="{{ $user->userDetails->phone }}">
+                                <span class="text-danger">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label>Profile Image</label>
                                 <input type="file" name="profile_image" class="form-control" accept="image/*">
+                                <span class="text-danger">{{ $errors->has('profile_image') ? $errors->first('profile_image') : '' }}</span>
                             </div>
                         </div>
 
@@ -215,6 +236,7 @@
                             <div class="form-group ">
                                 <label  >Date of Birth</label>
                                 <input type="text" class="form-control" name="dob" id="datepicker" value="{{ !empty($user->userDetails->userDetails->dob) ? $user->userDetails->userDetails->dob->format('m/d/Y') : date('m/d/Y') }}" />
+                                <span class="text-danger">{{ $errors->has('dob') ? $errors->first('dob') : '' }}</span>
                             </div>
                         </div>
 
@@ -227,6 +249,7 @@
                                     <option value="female" {{ $user->userDetails->gender == 'female' ? "selected" : '' }}>Female</option>
                                     <option value="other" {{ $user->userDetails->gender == 'other' ? "selected" : '' }}>Other</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('gender') ? $errors->first('gender') : '' }}</span>
                             </div>
                         </div>
 
@@ -239,6 +262,7 @@
                                         <option value="{{ $skill->id }}" @if(!empty($user->skills)) @foreach($user->skills as $userSkill) @if($userSkill->id == $skill->id) selected @endif @endforeach @endif>{{ $skill->skill_name }}</option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">{{ $errors->has('skills') ? $errors->first('skills') : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -252,6 +276,7 @@
                                     <option></option>
                                     <option value="United Arab Emirates" selected>UNITED ARAB EMIRATES</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('country') ? $errors->first('country') : '' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -267,6 +292,7 @@
                                     <option value="Ras Al-Khaimah" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Ras Al-Khaimah' ? 'selected' : '' }}>Ras Al-Khaimah</option>
                                     <option value="Umm al Quwain" {{ !empty($user->userDetails->emirate_state_name) && $user->userDetails->emirate_state_name == 'Umm al Quwain' ? 'selected' : '' }}>Umm al Quwain</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('emirate_state_name') ? $errors->first('emirate_state_name') : '' }}</span>
                             </div>
                         </div>
 
@@ -279,6 +305,7 @@
                                     <option value="Fresh Graduate" {{ $user->userDetails->company_status == 'Fresh Graduate' ? 'selected' : '' }}>Fresh Graduate</option>
                                     <option value="Other" {{ $user->userDetails->company_status == 'Other' ? 'selected' : '' }}>Other</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('company_status') ? $errors->first('company_status') : '' }}</span>
                             </div>
                         </div>
 
@@ -300,6 +327,7 @@
                                     <option value="American University of Sharjah" {{ $user->userDetails->university_name == 'American University of Sharjah' ? 'selected' : '' }}>American University of Sharjah</option>
                                     <option value="Other" {{ $user->userDetails->university_name == 'Other' ? 'selected' : '' }}>Other</option>
                                 </select>
+                                <span class="text-danger">{{ $errors->has('university_name') ? $errors->first('university_name') : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -311,6 +339,7 @@
                             <div class="form-group ">
                                 <label  >Emirates ID No.</label>
                                 <input type="text" name="emirates_id_no" class="form-control" value="{{ $user->userDetails->emirates_id_no }}" placeholder="Emirate ID Number" />
+                                <span class="text-danger">{{ $errors->has('emirates_id_no') ? $errors->first('emirates_id_no') : '' }}</span>
                             </div>
                         </div>
 
@@ -318,6 +347,7 @@
                             <div class="form-group ">
                                 <label  >Upload Emirates ID</label>
                                 <input type="file" name="user_document_files[]" multiple class="form-control" />
+                                <span class="text-danger">{{ $errors->has('user_document_files') ? $errors->first('user_document_files') : '' }}</span>
                             </div>
                         </div>
 
@@ -330,6 +360,7 @@
                             <div class="form-group ">
                                 <label  >About Student</label>
                                 <textarea class="form-control" name="description"></textarea>
+                                <span class="text-danger">{{ $errors->has('description') ? $errors->first('description') : '' }}</span>
                             </div>
                         </div>
                     </div>

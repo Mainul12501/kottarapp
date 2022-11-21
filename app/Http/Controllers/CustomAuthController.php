@@ -142,7 +142,7 @@ class CustomAuthController extends Controller
             {
                 $this->user->skills()->sync($request->skills);
             }
-            if (!empty($request->user_document_files)) {
+            if ($request->hasFile('user_document_files')) {
                 TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
             }
         });

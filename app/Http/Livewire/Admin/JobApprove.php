@@ -22,7 +22,7 @@ class JobApprove extends Component
 
     public function changeStatus ($jobId, $vel)
     {
-        $this->job = JobPost::find($jobId)->update(['status' => $this->job_status]);
+        $this->job = JobPost::find($jobId)->update(['status' => $vel]);
         session()->flash('message', 'Gig status updated successfully.');
 //        session()->flash('message', $vel);
     }

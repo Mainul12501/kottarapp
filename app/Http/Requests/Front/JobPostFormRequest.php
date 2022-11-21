@@ -26,7 +26,7 @@ class JobPostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'project_title'     => 'required',
         ];
     }
 
