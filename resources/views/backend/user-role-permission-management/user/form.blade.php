@@ -39,13 +39,15 @@
                                             <input type="email" class="form-control" required name="email" value="{{ isset($user) ? $user->email : '' }}" data-provide="typeahead" id="" placeholder="User Email">
                                             <span class="text-danger">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>
                                         </div>
-{{--                                        <div class="mb-3">--}}
-{{--                                            <label class="form-label"> Password <span class="text-danger">*</span></label>--}}
-{{--                                            <input type="text" class="form-control" name="password" value="" data-provide="typeahead" id="" placeholder="{{ isset($user) ? 'Update' : 'User' }} Password {{ isset($user) ? 'if required' : '' }}">--}}
-{{--                                        </div>--}}
+                                        @if(!isset($user))
+                                            <div class="mb-3">
+                                                <label class="form-label"> Password <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="password" value="" data-provide="typeahead" id="" placeholder="{{ isset($user) ? 'Update' : 'User' }} Password {{ isset($user) ? 'if required' : '' }}">
+                                            </div>
+                                        @endif
                                         <div class="mb-3">
                                             <label class="form-label">Roles <span class="text-danger">*</span></label>
-                                            <select name="roles[]" required class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Set Permissions">
+                                            <select name="roles[]" required class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Set Roles">
                                                 @foreach($roles as $role)
                                                     <option value="{{ $role->id }}" {{ isset($user) && $user->roles->contains($role->id) ? 'selected' : '' }}>{{ $role->title }}</option>
                                                 @endforeach

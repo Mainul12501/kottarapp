@@ -101,11 +101,21 @@ class JobPostController extends Controller
         {
             DB::rollBack();
         }
-        if (isset($this->jobPost))
+        if(Str::contains(url()->current(), '/api/'))
         {
-            return redirect()->route('client.job-post-list')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
+            if ($this->jobPost->isEmpty())
+            {
+                return response()->json(['error' =>'Something went wrong. Please try again.']);
+            } else {
+                return response()->json($this->jobPost);
+            }
         } else {
-            return back()->with('error', 'Something went wrong. Please try again.');
+            if (isset($this->jobPost))
+            {
+                return redirect()->route('client.job-post-list')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
+            } else {
+                return back()->with('error', 'Something went wrong. Please try again.');
+            }
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,7 +45,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validateInput($request);
-        User::saveData($request);
+        $userDetails = UserDetail::createOrUpdateUserDetails($request);
+//        User::saveData($request);
+        $user = User::updateOrCreateUser($request, $userDetails->id);
+        $user->roles()->sync($request->roles);
         return back()->with('success', 'User created successfully.');
     }
 
