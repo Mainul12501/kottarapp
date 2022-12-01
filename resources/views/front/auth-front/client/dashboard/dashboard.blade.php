@@ -4,6 +4,47 @@
     client dashboard
 @endsection
 
+@section('profile-progress-bar')
+    @if(isset($profilePercent) && $profilePercent < 100)
+        <section class="pt-5 m-t-50 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div style="height: 100px; width: 100px">
+                                                <img style="border-radius: 50%" src="{{ asset(auth()->user()->userDetails->profile_image) }}" alt="" class="card-img" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <h4>{{ isset(auth()->user()->name) ? auth()->user()->name : 'User' }}</h4>
+                                            <p>{{ auth()->user()->freelancer_job_title }}</p>
+                                            <div class="progress-bar">
+                                                <div class="progress"
+                                                     data-percent="{{ $profilePercent }}"
+                                                     data-color="green">
+                                                    <span>{{ $profilePercent }}%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p style="text-align: justify" class="mt-4 text-warning">Your profile is {{ $profilePercent }}% complete. Please update your profile and submit for review</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+@endsection
+
 @section('body')
     <div class="row job_section">
         <div class="col-sm-12">
@@ -53,9 +94,29 @@
     </div>
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/progress-bar.css" />
+    <style>
+        .progress-bar {
+            width: 100%;
+            /* margin: 1.5rem auto; */
+             margin-top: 0px;
+            background-color: #ddd;
+            border-radius: 6px;
+            height: 24px;
+        }
+    </style>
+@endsection
+
 @section('script')
     <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/amcharts.js"></script>
     <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/serial.js"></script>
     <script src="{{ asset('/') }}frontend/assets/www.amcharts.com/lib/3/themes/patterns.js"></script>
     <script src="{{ asset('/') }}frontend/assets/js/amchart-custom.js"></script>
+    <script src="{{ asset('/') }}frontend/assets/js/progress-bar.js"></script>
+    <script>
+        $(function () {
+            $(".progress-bar").ProgressBar();
+        })
+    </script>
 @endsection

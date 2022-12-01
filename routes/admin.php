@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SettingsController;
 
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CustomAuthUserViewController;
 
 use App\Http\Controllers\Admin\SkillsCategoryController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\JobPostQuestionController;
 
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\Front\GigController;
 
 
 Route::middleware([
@@ -24,9 +26,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('backend.home.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('admin')->group(function (){
         //permissions route
@@ -48,7 +48,7 @@ Route::middleware([
 
         Route::resource('job-questions', JobPostQuestionController::class);
 
-        Route::get('/approve-job', [JobPostController::class, 'approveJob'])->name('approve-job');
+//        Route::get('/approve-job', [JobPostController::class, 'approveJob'])->name('approve-job');
     });
 
 //    Frontend client section routes
@@ -62,14 +62,19 @@ Route::middleware([
 
 //    Frontend Freelancer section routes
     Route::prefix('freelancer')->as('freelancer.')->group(function (){
-        Route::get('/browse-all-gigs', [FrontController::class, 'browseAllGigs'])->name('browse-all-gigs');
-        Route::get('/gig-details/{slug}', [FrontController::class, 'freelancerGigDetails'])->name('gig-details');
-        Route::post('/apply-gig/{slug}', [FrontController::class, 'applyGig'])->name('apply-gig');
+        Route::get('/browse-all-gigs', [GigController::class, 'browseAllGigs'])->name('browse-all-gigs');
+        Route::get('/gig-details/{slug}', [GigController::class, 'freelancerGigDetails'])->name('gig-details');
+        Route::post('/apply-gig/{slug}', [GigController::class, 'applyGig'])->name('apply-gig');
+        Route::get('/active-gigs', [GigController::class, 'studentActiveGigs'])->name('active-gigs');
+
+        Route::get('/decline-gig-offer/{id}', [GigController::class, 'declineGigOffer'])->name('decline-gig-offer');
     });
 
     Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
-    Route::get('/update-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
+    Route::get('/view-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
     Route::post('/update-profile', [CustomAuthController::class, 'showUpdateProfile'])->name('update-profile');
+
+
 });
 
 

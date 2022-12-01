@@ -24,12 +24,12 @@ class JobPostController extends Controller
      */
     public function index()
     {
-        $this->jobPosts = JobPost::where('client_user_id', auth()->id())->latest()->get();
+        $this->jobPosts = JobPost::where('status', 1)->latest()->paginate(10);
         if (Str::contains(url()->current(), '/api/'))
         {
             if ($this->jobPosts->isEmpty())
             {
-                return response()->json(['error' => 'No gigs found.']);
+                return response()->json(['error' => 'No gigs found.'], 500);
             }else {
                 return response()->json($this->jobPosts);
             }
@@ -67,7 +67,7 @@ class JobPostController extends Controller
         } else {
             if (Str::contains(url()->current(), '/api/'))
             {
-                return response()->json(['error' => 'Your account has not approved yet.']);
+                return response()->json(['error' => 'Your account has not approved yet.'], 500);
             }
             return redirect()->back()->with('error', 'Your account has not approved yet.');
         }
@@ -81,6 +81,7 @@ class JobPostController extends Controller
      */
     public function store(JobPostFormRequest $request)
     {
+//        $this->jobPost = JobPost::createJob($request);
         DB::beginTransaction();
         try {
             $this->jobPost = JobPost::createJob($request);
@@ -96,7 +97,7 @@ class JobPostController extends Controller
             {
                 JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
             }
-
+            DB::commit();
         } catch (\Exception $exception)
         {
             DB::rollBack();
@@ -110,10 +111,11 @@ class JobPostController extends Controller
                     'skills'    => $this->jobPost->skills,
                     'questions' => $this->jobPost->jobPostQuestions,
                     'files'     => $this->jobPost->jobPostFiles,
+                    'success'   => 'Gig created successfully.',
                 ]);
 
             } else {
-                return response()->json(['error' =>'Something went wrong. Please try again.']);
+                return response()->json(['error' =>'Something went wrong. Please try again.'], 500);
             }
         } else {
             if (isset($this->jobPost))
@@ -133,7 +135,21 @@ class JobPostController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->jobPost = JobPost::where('id', $id)->with('skillCategory', 'skillSubCategory', 'user', 'jobPostFiles', 'applyJobs', 'skills', 'jobPostQuestions')->first();
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if (isset($this->jobPost))
+            {
+                return response()->json($this->jobPost);
+            } else {
+                return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+            }
+        } else {
+            return view('front.auth-front.client.post-job.show-applied-students', [
+                'gig'   => JobPost::find($id)
+            ]);
+        }
+
     }
 
     /**
@@ -170,7 +186,49 @@ class JobPostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
+        try {
+            $this->jobPost = JobPost::updateJobPost ($request, $id);
+            if (!empty($request->required_skills))
+            {
+                $this->jobPost->skills()->sync($request->required_skills);
+            }
+            if (!empty($request->job_questions))
+            {
+                $this->jobPost->jobPostQuestions()->sync($request->job_questions);
+            }
+            if ($request->hasFile('files'))
+            {
+                JobPostFile::saveJobPostFile($request->file('files'), $this->jobPost);
+            }
+            DB::commit();
+        } catch (\Exception $exception)
+        {
+            DB::rollBack();
+        }
+        if(Str::contains(url()->current(), '/api/'))
+        {
+            if ($this->jobPost)
+            {
+                return response()->json([
+                    'gig'   => $this->jobPost,
+                    'skills'    => $this->jobPost->skills,
+                    'questions' => $this->jobPost->jobPostQuestions,
+                    'files'     => $this->jobPost->jobPostFiles,
+                    'success'   => 'Gig created successfully.',
+                ]);
 
+            } else {
+                return response()->json(['error' =>'Something went wrong. Please try again.'], 500);
+            }
+        } else {
+            if (isset($this->jobPost))
+            {
+                return redirect()->route('client.job-post-list')->with('success', 'Gig updated successfully.');
+            } else {
+                return back()->with('error', 'Something went wrong. Please try again.');
+            }
+        }
     }
 
     /**
@@ -184,7 +242,7 @@ class JobPostController extends Controller
         JobPost::findOrFail($id)->delete();
         if (Str::contains(url()->current(),'/api/'))
         {
-            return response()->json(['success' => 'Gig deleted successfully.']);
+            return response()->json(['success' => 'Gig deleted successfully.'], 500);
         } else {
             return back()->with('success', 'Gig deleted successfully.');
         }
@@ -198,12 +256,12 @@ class JobPostController extends Controller
 
     public function userWiseJobPost ()
     {
-        $this->jobPosts = JobPost::where('client_user_d', auth()->id())->get();
+        $this->jobPosts = JobPost::where('client_user_id', auth()->id())->with('user.userDetails', 'jobPostFiles', 'skillCategory', 'skillSubCategory', 'skills')->latest()->get();
         if (Str::contains(url()->current(), '/api/'))
         {
             if ($this->jobPosts->isEmpty())
             {
-                return response()->json(['error' => 'No gigs found.']);
+                return response()->json(['error' => 'No gigs found.'],500);
             } else {
                 return response()->json($this->jobPosts);
             }
@@ -213,13 +271,15 @@ class JobPostController extends Controller
         ]);
     }
 
-    public function approveJob ($id)
-    {
-        $this->jobPost = JobPost::find($id);
-        if ($this->jobPost->status == 0)
-        {
-            $this->jobPost->status = 1;
-        }
+//    public function approveJob ($id)
+//    {
+//        $this->jobPost = JobPost::find($id);
+//        if ($this->jobPost->status == 0)
+//        {
+//            $this->jobPost->status = 1;
+//        }
+//
+//    }
 
-    }
+
 }

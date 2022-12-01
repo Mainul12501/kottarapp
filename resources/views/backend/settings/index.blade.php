@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    {site title} - Settings
+    Knotter App - Settings
 @endsection
 
 @section('body-title-section')
@@ -18,6 +18,9 @@
             color: black;
         }
     </style>
+<!-- Quill css -->
+<link href="{{ asset('/') }}backend/assets/css/vendor/quill.core.css" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/') }}backend/assets/css/vendor/quill.snow.css" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('body')
@@ -26,70 +29,215 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="settings-tabs card card-body">
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-general-tab" data-bs-toggle="pill" data-bs-target="#pills-general" type="button" role="tab" aria-controls="pills-general" aria-selected="true">General Setting</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-localization-tab" data-bs-toggle="pill" data-bs-target="#pills-localization" type="button" role="tab" aria-controls="pills-localization" aria-selected="false">Localization</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button" role="tab" aria-controls="pills-payment" aria-selected="false">Payment Settings</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-email-tab" data-bs-toggle="pill" data-bs-target="#pills-email" type="button" role="tab" aria-controls="pills-email" aria-selected="false">Email Setting</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-sociallogin-tab" data-bs-toggle="pill" data-bs-target="#pills-sociallogin" type="button" role="tab" aria-controls="pills-sociallogin" aria-selected="false">Social Media Login</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-sociallinks-tab" data-bs-toggle="pill" data-bs-target="#pills-sociallinks" type="button" role="tab" aria-controls="pills-sociallinks" aria-selected="false">Social Links</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-seo-tab" data-bs-toggle="pill" data-bs-target="#pills-seo" type="button" role="tab" aria-controls="pills-seo" aria-selected="false">SEO Settings</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-other-tab" data-bs-toggle="pill" data-bs-target="#pills-other" type="button" role="tab" aria-controls="pills-other" aria-selected="false">Others</button>
-                            </li>
-
-                        </ul>
-
-                        <div class="tab-content mt-2" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab" tabindex="0">
-                                @include('backend.settings.includes.general')
+                        <div class="" >
+                            <div class="position-absolute border-1 d-flex justify-content-between align-items-center" style="top: -9px">
+                                <h5 class="card-title mb-0">
+                                    <span class="px-2 py-1 bg-white" style="border: 1px solid lightgrey!important;">Site Configuration</span>
+                                </h5>
                             </div>
-                            <div class="tab-pane fade" id="pills-localization" role="tabpanel" aria-labelledby="pills-localization-tab" tabindex="0">
-                                Localization
+                            <div class="pt-2">
+                                <form action="{{ isset($setting) ? route('settings.update', $setting->id) : route('settings.store') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    @if(isset($setting))
+                                        @method('put')
+                                    @endif
+                                    <fieldset >
+                                        <input type="hidden" name="setting_category" value="general">
+                                        {{--                                                            <input type="hidden" name="setting_id" value="{{ isset($setting) ? $setting->id : '' }}">--}}
+                                        <div class="form-group row mt-2">
+                                            <div class="col-md-4 ">
+                                                <label for="disabledTextInput" class="form-label f-s-11">
+                                                    Website Title
+                                                    <i class="dripicons-question text-danger" data-bs-toggle="tooltip" data-bs-title="Set your site title here" data-bs-placement="right"></i>
+                                                </label>
+                                                <input type="text"  class="form-control" name="site_title" placeholder="" value="{{ $errors->any() ? old('site_title') : (isset($setting) ? $setting->site_title : '') }}">
+                                                @error('site_title')<span class="text-danger f-s-12">{{ $errors->first('site_title') }}</span>@enderror
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="disabledTextInput" class="form-label f-s-12">
+                                                    Website Name
+                                                    <i class="dripicons-question f-s-12 text-danger" data-bs-toggle="tooltip" data-bs-title="Set your site Name here" data-bs-placement="right"></i>
+                                                </label>
+                                                <input type="text"  class="form-control" name="site_name" placeholder="" value="{{ $errors->any() ? old('site_name') : (isset($setting) ? $setting->site_name : '') }}">
+                                                @error('site_name')<span class="text-danger f-s-12">{{ $errors->first('site_name') }}</span>@enderror
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="disabledTextInput" class="form-label f-s-12">
+                                                    Site Author Name
+                                                    <i class="dripicons-question f-s-12 text-danger" data-bs-toggle="tooltip" data-bs-title="Set your site Author Name here" data-bs-placement="right"></i>
+                                                </label>
+                                                <input type="text"  class="form-control" name="author_name" placeholder="" value="{{ $errors->any() ? old('author_name') : (isset($setting) ? $setting->author_name : '') }}">
+                                                @error('author_name')<span class="text-danger f-s-12">{{ $errors->first('author_name') }}</span>@enderror
+                                            </div>
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">
+                                                    Website Favicon
+                                                    <i class="dripicons-question" data-bs-toggle="tooltip" data-bs-title="Set your site Favicon here" data-bs-placement="right"></i>
+                                                </label>
+                                                <input type="file"  class="form-control" name="site_favicon" placeholder="" accept="image/*">
+                                                <span class="text-danger">{{ $errors->has('site_favicon') ? $errors->first('site_favicon') : '' }}</span>
+                                                @if(!empty($setting->site_favicon))
+                                                    <img src="{{ asset($setting->site_favicon)}}" style="height: 16px;width: 16px" alt="site-favicon">
+                                                @endif
+                                            </div>
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">
+                                                    Website Logo
+                                                    <i class="dripicons-question" data-bs-toggle="tooltip" data-bs-title="Set your site Logo here" data-bs-placement="right"></i>
+                                                </label>
+                                                <input type="file"  class="form-control" name="site_logo" placeholder="" accept="image/*" />
+                                                <span class="text-danger">{{ $errors->has('site_logo') ? $errors->first('site_logo') : '' }}</span>
+                                                @if(!empty($setting->site_logo))
+                                                    <img src="{{ asset($setting->site_logo)}}" style="height: 100px;width: 100px" alt="">
+                                                @endif
+                                            </div>
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">Website Banner</label>
+                                                <input type="file" class="form-control" name="site_banner" placeholder="" accept="image/*" />
+                                                <span class="text-danger">{{ $errors->has('site_banner') ? $errors->first('site_banner') : '' }}</span>
+                                                @if(!empty($setting->site_banner))
+                                                    <img src="{{ asset($setting->site_banner)}}" style="height: 100px;width: 100px" alt="">
+                                                @endif
+                                            </div>
+{{--                                            <div class="col-md-4">--}}
+{{--                                                <label for="disabledTextInput" class="form-label f-s-12">--}}
+{{--                                                    Gig Post Valid Duration--}}
+{{--                                                    <i class="dripicons-question f-s-12 text-danger" data-bs-toggle="tooltip" data-bs-title="Set your Gig Post Valid Duration here" data-bs-placement="right"></i>--}}
+{{--                                                </label>--}}
+{{--                                                <input type="number"  class="form-control" name="job_post_validate_time" placeholder="" value="{{ $errors->any() ? old('job_post_validate_time') : (isset($setting) ? $setting->job_post_validate_time : '') }}">--}}
+{{--                                                @error('job_post_validate_time')<span class="text-danger f-s-12">{{ $errors->first('job_post_validate_time') }}</span>@enderror--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-md-4">--}}
+{{--                                                <label for="disabledTextInput" class="form-label f-s-12">--}}
+{{--                                                    Gig Post Valid Duration--}}
+{{--                                                    <i class="dripicons-question f-s-12 text-danger" data-bs-toggle="tooltip" data-bs-title="Set your Gig Post Valid Duration here" data-bs-placement="right"></i>--}}
+{{--                                                </label>--}}
+{{--                                                <input type="number"  class="form-control" name="job_service_charge" placeholder="" value="{{ $errors->any() ? old('job_service_charge') : (isset($setting) ? $setting->job_service_charge : '') }}">--}}
+{{--                                                @error('job_service_charge')<span class="text-danger f-s-12">{{ $errors->first('job_service_charge') }}</span>@enderror--}}
+{{--                                            </div>--}}
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">Website Meta</label>
+                                                <textarea name="site_meta" id="snow-editor" style="height: 200px" class="form-control" cols="30" rows="2">{!! $errors->any() ? old('site_meta') : (isset($setting) ? $setting->site_meta : '') !!}</textarea>
+                                                @error('site_meta')<span class="text-danger f-s-12">{{ $errors->first('site_meta') }}</span>@enderror
+                                            </div>
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">Seo Header Content</label>
+                                                <textarea name="seo_header" id=""  style="height: 200px" class="form-control snow-editor" cols="30" rows="2">{!! $errors->any() ? old('seo_header') : (isset($setting) ? $setting->seo_header : '') !!}</textarea>
+                                                @error('seo_header')<span class="text-danger f-s-12">{{ $errors->first('seo_header') }}</span>@enderror
+                                            </div>
+                                            <div class="col-md-4 mt-2">
+                                                <label for="disabledTextInput" class="form-label f-s-12">Seo Footer Content</label>
+                                                <textarea name="seo_footer" id="seo-footer"  style="height: 200px" class="form-control" cols="30" rows="2">{!! $errors->any() ? old('seo_footer') : (isset($setting) ? $setting->seo_footer : '') !!}</textarea>
+                                                @error('seo_footer')<span class="text-danger f-s-12">{{ $errors->first('seo_footer') }}</span>@enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-3">
+                                            <div class="col-12">
+                                                <input type="submit" class="mt-3 btn btn-outline-warning text-center" value="Update Settings">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
                             </div>
-                            <div class="tab-pane fade" id="pills-payment" role="tabpanel" aria-labelledby="pills-payment-tab" tabindex="0">
-                                payment setting
-                            </div>
-                            <div class="tab-pane fade" id="pills-email" role="tabpanel" aria-labelledby="pills-email-tab" tabindex="0">
-                                email setting
-                            </div>
-                            <div class="tab-pane fade" id="pills-sociallogin" role="tabpanel" aria-labelledby="pills-sociallogin-tab" tabindex="0">
-                                social media login
-                            </div>
-                            <div class="tab-pane fade" id="pills-sociallinks" role="tabpanel" aria-labelledby="pills-sociallinks-tab" tabindex="0">
-                                social midea links
-                            </div>
-                            <div class="tab-pane fade" id="pills-seo" role="tabpanel" aria-labelledby="pills-seo-tab" tabindex="0">
-                                Seo settings
-                            </div>
-
-                            <div class="tab-pane fade" id="pills-other" role="tabpanel" aria-labelledby="pills-other-tab" tabindex="0">
-                                others
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 
+
 @section('script')
-    <script src="{{ asset('/') }}backend/assets/js/district/javascript.js"></script>
+{{--    <script src="{{ asset('/') }}backend/assets/js/district/javascript.js"></script>--}}
+    <!-- quill js -->
+    <script src="{{ asset('/') }}backend/assets/js/vendor/quill.min.js"></script>
+    <!-- quill Init js-->
+    <script src="{{ asset('/') }}backend/assets/js/pages/demo.quilljs.js"></script>
+
+    <script>
+        var quill = new Quill(".snow-editor", {
+            theme: "snow",
+            modules: {
+                toolbar: [
+                    [{
+                        font: []
+                    }, {
+                        size: []
+                    }],
+                    ["bold", "italic", "underline", "strike"],
+                    [{
+                        color: []
+                    }, {
+                        background: []
+                    }],
+                    [{
+                        script: "super"
+                    }, {
+                        script: "sub"
+                    }],
+                    [{
+                        header: [!1, 1, 2, 3, 4, 5, 6]
+                    }, "blockquote", "code-block"],
+                    [{
+                        list: "ordered"
+                    }, {
+                        list: "bullet"
+                    }, {
+                        indent: "-1"
+                    }, {
+                        indent: "+1"
+                    }],
+                    ["direction", {
+                        align: []
+                    }],
+                    ["link", "image", "video"],
+                    ["clean"]
+                ]
+            }
+        })
+    </script>
+    <script>
+        var quill = new Quill("#seo-footer", {
+            theme: "snow",
+            modules: {
+                toolbar: [
+                    [{
+                        font: []
+                    }, {
+                        size: []
+                    }],
+                    ["bold", "italic", "underline", "strike"],
+                    [{
+                        color: []
+                    }, {
+                        background: []
+                    }],
+                    [{
+                        script: "super"
+                    }, {
+                        script: "sub"
+                    }],
+                    [{
+                        header: [!1, 1, 2, 3, 4, 5, 6]
+                    }, "blockquote", "code-block"],
+                    [{
+                        list: "ordered"
+                    }, {
+                        list: "bullet"
+                    }, {
+                        indent: "-1"
+                    }, {
+                        indent: "+1"
+                    }],
+                    ["direction", {
+                        align: []
+                    }],
+                    ["link", "image", "video"],
+                    ["clean"]
+                ]
+            }
+        })
+    </script>
+
 @endsection

@@ -32,74 +32,49 @@
 {{--                                </li>--}}
 {{--                            </ul>--}}
                         </li>
-                        <li class="has-sub-menu">
-                            <a href="javascript:void(0)">Student</a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ route('client.dashboard') }}">dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="">Browse Gigs</a>
-                                </li>
+                        @if(auth()->check() && auth()->user()->user_role_type == 1)
+                            <li class="has-sub-menu">
+                                <a href="javascript:void(0)">Student</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="{{ route('client.dashboard') }}">dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('freelancer.browse-all-gigs') }}">Browse Gigs</a>
+                                    </li>
 
-                                <li>
-                                    <a href="">Job single</a>
-                                </li>
+                                    <li>
+                                        <a href="{{ route('freelancer.active-gigs') }}">My Applied Gigs</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('profile-update-form') }}">Update my profile</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(auth()->check() && auth()->user()->user_role_type == 2)
+                            <li class="has-sub-menu">
+                                <a href="#">SME</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="{{ route('client.dashboard') }}">Job dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('client.job-post.create') }}">Post a Gig</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('client.job-post.index') }}">My Gig listing</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Company profile</a>
+                                    </li>
 
-                                <li>
-                                    <a href="">My stared jobs</a>
-                                </li>
-                                <li>
-                                    <a href="">Job seeker profile</a>
-                                </li>
-                                <li>
-                                    <a href="">Update my profile</a>
-                                </li>
-
-                                <li>
-                                    <a href="">Change password</a>
-                                </li>
-                                <li>
-                                    <a href="">Registration</a>
-                                </li>
-                                <li>
-                                    <a href="">Browse companies</a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li class="has-sub-menu">
-                            <a href="#">SME</a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ route('client.dashboard') }}">Job dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('client.job-post.create') }}">Post a Gig</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('client.job-post.index') }}">My Jobs listing</a>
-                                </li>
-                                <li>
-                                    <a href="">Find staff</a>
-                                </li>
-                                <li>
-                                    <a href="">Company profile</a>
-                                </li>
-
-                                <li>
-                                    <a href="">Update profile</a>
-                                </li>
-                                <li>
-                                    <a href="">Change password</a>
-                                </li>
-                                <li>
-                                    <a href="">Employer registration</a>
-                                </li>
-                            </ul>
-                        </li>
-
+                                    <li>
+                                        <a href="{{ route('profile-update-form') }}">Update profile</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
 {{--                        <li class="has-sub-menu">--}}
 {{--                            <a href="#">Pages</a>--}}
 {{--                            <ul class="sub-menu">--}}
@@ -141,29 +116,35 @@
                                     <div class="login_pop_box_head">
                                         <div class=" ">
                                             <img alt=""  src="{{ isset(auth()->user()->userDetails->profile_image) ? asset(auth()->user()->userDetails->profile_image) : asset('frontend/assets/images/c-logo-03.webp') }}">
-                                            <span> New York, London </span>
-                                            <h5>Donec Software </h5>
-                                            <h6>&nbsp;</h6>
+                                            <span> {{ isset(auth()->user()->userDetails->country) ? auth()->user()->userDetails->country : "Dubai" }}</span>
+                                            @if(auth()->user()->user_role_type == 2)
+                                                <h5>{{ auth()->user()->userDetails->company_name }} </h5>
+                                            @else
+                                                <h5> </h5>
+                                                <h6 class="mt-3"> </h6>
+                                            @endif
+
                                         </div>
                                     </div>
                                     <ul class="user_navigation">
                                         <li>
-                                            <a href="{{ route('client.dashboard') }}"><i class="fas fa-border-all"></i> Job Dashboard </a>
+                                            <a href="{{ route('client.dashboard') }}"><i class="fas fa-border-all"></i> Dashboard </a>
                                         </li>
+                                        @if(auth()->user()->user_role_type == 1)
+                                            <li>
+                                                <a href="{{ route('freelancer.browse-all-gigs') }}"><i class="fas fa-search"></i> Find Gigs </a>
+                                            </li>
+                                        @endif
+                                        @if(auth()->user()->user_role_type == 2)
+                                            <li>
+                                                <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Gig</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('client.job-post.index') }}"><i class="far fa-list-alt"></i> My Gig listings</a>
+                                            </li>
+                                        @endif
                                         <li>
-                                            <a href="#"><i class="fas fa-search"></i> Find Staff </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Job</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('client.job-post.index') }}"><i class="far fa-list-alt"></i> My job listings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="fas fa-user"></i> Update My Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="fas fa-key"></i>Change Password</a>
+                                            <a href="{{ route('profile-update-form') }}"><i class="fas fa-user"></i> Update My Profile</a>
                                         </li>
                                         <li>
                                             <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit()"><i class="fas fa-power-off"></i> Logout</a>

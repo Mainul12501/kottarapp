@@ -68,7 +68,7 @@ class UserDetail extends Model
             'country'                       => $request->country,
             'emirate_state_name'            => $request->emirate_state_name,
             'phone'                         => $request->phone,
-            'profile_image'                 => imageUpload($request->file('profile_image'),'user-profile-pictures/', 'profile-image-'),
+            'profile_image'                 => imageUpload($request->file('profile_image'),'user-profile-pictures/', 'profile-image-', 500, 500, isset($id) ? UserDetail::find($id)->profile_image : null),
             'gender'                        => $request->gender,
             'educational_status'            => $request->educational_status,
             'university_name'               => $request->university_name,

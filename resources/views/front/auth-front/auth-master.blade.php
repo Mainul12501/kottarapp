@@ -14,6 +14,11 @@
     <!-- CSS
     ================================================== -->
     @include('front.includes.assets.css')
+    <style>
+        .btn {
+            padding: 0.375rem 0.75rem;
+        }
+    </style>
 
     <script>
         let baseUrl = {!! json_encode(url('/')) !!} + '/';
@@ -34,11 +39,13 @@
 <!-- End Header 02
 ================================================== -->
 
-
+<!-- profile progress bar section -->
+    @yield('profile-progress-bar')
+<!-- end profile progress bar section -->
 
 <!-- Main
 ================================================== -->
-<main class="mt-5">
+<main class="{{ isset($profilePercent) && $profilePercent < 100 ? '' : 'mt-5' }}">
     <div class="job_container">
         <div class="container">
             <div class="row job_main">

@@ -103,8 +103,8 @@ class JobPost extends Model
         self::$jobPost->job_location_city                               = $request->job_location_city;
         self::$jobPost->job_starting_date                               = $request->job_starting_date;
         self::$jobPost->job_starting_date_timestamp                     = strtotime($request->job_starting_date);
-        self::$jobPost->job_ending_time                                 = $request->job_ending_time;
-        self::$jobPost->job_ending_time_timestamp                       = strtotime($request->job_ending_time);
+        self::$jobPost->job_ending_date                                 = $request->job_ending_date;
+        self::$jobPost->job_ending_date_timestamp                       = strtotime($request->job_ending_date);
         self::$jobPost->job_total_duration                              = $request->job_total_duration;
         self::$jobPost->job_total_length                                = $request->job_total_length;
         self::$jobPost->estimate_project_duration_type                  = $request->estimate_project_duration_type;
@@ -123,7 +123,7 @@ class JobPost extends Model
         self::$jobPost = JobPost::find($id);
         self::$jobPost->skill_category_id                               = $request->skill_category_id;
         self::$jobPost->skill_sub_category_id                           = $request->skill_sub_category_id;
-        self::$jobPost->client_user_id                                  = auth()->id();
+//        self::$jobPost->client_user_id                                  = auth()->id();
         self::$jobPost->project_title                                   = $request->project_title;
         self::$jobPost->project_description                             = $request->project_description;
         self::$jobPost->experience_level                                = $request->experience_level;
@@ -138,8 +138,8 @@ class JobPost extends Model
         self::$jobPost->job_location_city                               = $request->job_location_city;
         self::$jobPost->job_starting_date                               = $request->job_starting_date;
         self::$jobPost->job_starting_date_timestamp                     = strtotime($request->job_starting_date);
-        self::$jobPost->job_ending_time                                 = $request->job_ending_time;
-        self::$jobPost->job_ending_time_timestamp                       = strtotime($request->job_ending_time);
+        self::$jobPost->job_ending_date                                 = $request->job_ending_date;
+        self::$jobPost->job_ending_date_timestamp                       = strtotime($request->job_ending_date);
         self::$jobPost->job_total_duration                              = $request->job_total_duration;
         self::$jobPost->job_total_length                                = $request->job_total_length;
         self::$jobPost->estimate_project_duration_type                  = $request->estimate_project_duration_type;

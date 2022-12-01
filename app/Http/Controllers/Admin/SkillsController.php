@@ -103,7 +103,7 @@ class SkillsController extends Controller
 
         if (Str::contains(url()->current(), '/api/'))
         {
-            $this->skills = Skill::latest()->select('id', 'name')->get();
+            $this->skills = Skill::latest()->select('id', 'skill_name')->get();
             return response()->json($this->skills,200);
         } else {
             $this->skills = Skill::latest()->get();

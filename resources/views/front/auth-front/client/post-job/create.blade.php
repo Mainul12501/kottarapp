@@ -112,7 +112,7 @@
                                 <label  >Project Payment Type</label>
                                 <select name="budget_type" class="form-control select2" data-toggle="select2">
                                     <option value="0" {{ isset($jobPost) && $jobPost->experience_level == 0 ? 'selected' : '' }}>Fixed</option>
-                                    <option value="1" {{ isset($jobPost) && $jobPost->experience_level == 1 ? 'selected' : '' }}>Per Hour</option>
+{{--                                    <option value="1" {{ isset($jobPost) && $jobPost->experience_level == 1 ? 'selected' : '' }}>Per Hour</option>--}}
                                 </select>
                                 <span class="text-danger">{{ $errors->has('budget_type') ? $errors->first('budget_type') : '' }}</span>
                             </div>
@@ -211,7 +211,7 @@
                                 @if(isset($jobPost) && !empty($jobPost->jobPostFiles))
                                     <ul class="nav">
                                         @foreach($jobPost->jobPostFiles as $file)
-                                            <li><a href="{{ asset($file->file_url) }}" download="" class="nav-link">file-{{ $loop->iteeration }}</a></li>
+                                            <li><a href="{{ asset($file->file_url) }}" download="" class="nav-link">file-{{ $loop->iteration }}</a></li>
                                         @endforeach
                                     </ul>
                                 @endif

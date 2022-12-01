@@ -32,7 +32,7 @@ class TradeLicenseFile extends Model
             } else {
                 self::$tradeLicenseFile->file_url = fileUploadHelper($item, 'user-document-files/', 'client-trade-license-files-');
             }
-            self::$tradeLicenseFile->file_size   = $item->getSize();
+//            self::$tradeLicenseFile->file_size   = $item->getSize();
             self::$tradeLicenseFile->file_type   = $item->getClientMimeType();
             self::$tradeLicenseFile->save();
         }

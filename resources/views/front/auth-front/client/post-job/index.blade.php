@@ -12,7 +12,7 @@
             </div>
             <div class="table-cont ">
 
-                <table class="table table-responsive display" id="datatable-buttons">
+                <table class="table display" id="datatable-buttons">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -31,7 +31,12 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $jobPost->project_title }}</td>
                                 <td>{{ $jobPost->job_unique_code }}</td>
-                                <td>{{ $jobPost->experience_level }}</td>
+                                <td>
+                                    {{ $jobPost->experience_level == 0 ? 'Excited' : '' }}
+                                    {{ $jobPost->experience_level == 1 ? 'Eager' : '' }}
+                                    {{ $jobPost->experience_level == 2 ? 'Experienced' : '' }}
+                                    {{ $jobPost->experience_level == 3 ? 'Expert' : '' }}
+                                </td>
                                 <td>${{ $jobPost->budget }}</td>
                                 <td>{!! substr_replace($jobPost->project_description, '', 200) !!}</td>
                                 <td>
@@ -43,23 +48,29 @@
                                 <td>
                                     <ul class="job-dashboard-actions" >
                                         <li>
+                                            <a href="{{ route('client.job-post.show', $jobPost->id) }}" class="job-dashboard-action-mark_filled">
+{{--                                                Edit--}}
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('client.job-post.edit', $jobPost->id) }}" class="job-dashboard-action-edit">
 {{--                                                Edit--}}
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="#" class="job-dashboard-action-mark_filled text-danger">
+{{--                                        <li>--}}
+{{--                                            <a href="#" class="job-dashboard-action-mark_filled text-danger">--}}
 {{--                                                Deactivate--}}
-                                                <i class="fas fa-arrow-circle-down"></i>
-                                            </a>
-                                        </li>
+{{--                                                <i class="fas fa-arrow-circle-down"></i>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
                                         <li>
-                                            <a href="#" class="job-dashboard-action-delete" onclick="event.preventDefault();document.getElementById('gig{!! $jobPost->id !!}').submit()">
+                                            <a href="#" class="job-dashboard-action-delete" onclick="event.preventDefault();if (!confirm('Are you sure to delete this Gig')){return false};document.getElementById('gig{!! $jobPost->id !!}').submit()">
                                                 {{--                                                Delete--}}
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-                                            <form action="{{ route('client.job-post.destroy', $jobPost->id) }}" id="gig{{ $jobPost->id }}" method="post" onsubmit="return confirm('Are you sure to delete this Gig')">
+                                            <form action="{{ route('client.job-post.destroy', $jobPost->id) }}" id="gig{{ $jobPost->id }}" method="post">
                                                 @csrf
                                                 @method('delete')
 

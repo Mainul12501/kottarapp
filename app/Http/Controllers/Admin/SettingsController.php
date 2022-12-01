@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\SiteSetting;
 use App\Models\Backend\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ class SettingsController extends Controller
     public function index()
     {
         return view('backend.settings.index',[
-            'setting'   => Settings::first(),
+            'setting'   => SiteSetting::first(),
         ]);
     }
 
@@ -30,7 +31,7 @@ class SettingsController extends Controller
     public function create()
     {
         return redirect()->route('settings.index',[
-            'setting'   => Settings::first(),
+            'setting'   => SiteSetting::first(),
         ]);
     }
 
@@ -42,10 +43,11 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $this->validateGeneralRules($request);
         try {
             DB::transaction(function () use ($request){
-                Settings::storeOrUpdate($request);
+                SiteSetting::storeOrUpdate($request);
             });
             return back()->with('success', 'Settings updated successfully');
         } catch (\Exception $exception)
@@ -90,7 +92,7 @@ class SettingsController extends Controller
         $this->validateGeneralRules($request);
         try {
             DB::transaction(function () use ($request, $id){
-                Settings::storeOrUpdate($request, $id);
+                SiteSetting::storeOrUpdate($request, $id);
             });
             return back()->with('success', 'Settings updated successfully');
         } catch (\Exception $exception)
@@ -105,15 +107,8 @@ class SettingsController extends Controller
         return $this->validate($request, [
             'site_title'            => 'required|string',
             'site_name'             => 'required',
-            'system_email'          => 'required|email',
-            'institute_phone'       => 'numeric|regex:/(01)[0-9]{9}/',
-            'footer'                => 'required|string',
-            'currency_code'         => 'string',
-            'currency_symbol'       => 'string',
             'site_logo'             => 'image',
             'site_banner'           => 'image',
-        ],[
-            'footer.required'   => 'you must set footer here',
         ]);
     }
 

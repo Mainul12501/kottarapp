@@ -30,7 +30,8 @@ class CustomAuthController extends Controller
 
     public function registerAndRedirectClientAndFreelancer(CustomBuyerSellerRegisterRequest $request)
     {
-        DB::transaction(function () use ($request) {
+        DB::beginTransaction();
+        try {
             $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
             $this->user = User::updateOrCreateUser($request, $this->userDetails->id);
             $this->user->roles()->sync($request->user_role_type);
@@ -41,7 +42,23 @@ class CustomAuthController extends Controller
             if ($request->hasFile('user_document_files')) {
                 TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
             }
-        });
+            DB::commit();
+        } catch (\Exception $exception)
+        {
+            DB::rollBack();
+        }
+//        DB::transaction(function () use ($request) {
+//            $this->userDetails = UserDetail::createOrUpdateUserDetails($request);
+//            $this->user = User::updateOrCreateUser($request, $this->userDetails->id);
+//            $this->user->roles()->sync($request->user_role_type);
+//            if (!empty($request->skills))
+//            {
+//                $this->user->skills()->sync($request->skills);
+//            }
+//            if ($request->hasFile('user_document_files')) {
+//                TradeLicenseFile::saveAndUpdateTradeLicenseFiles($request->file('user_document_files'), $this->user);
+//            }
+//        });
 
         if (isset($this->user)) {
             Auth::login($this->user);
@@ -60,7 +77,7 @@ class CustomAuthController extends Controller
 
         }
         if (Str::contains(url()->current(), '/api/')) {
-            return response()->json(['error' => 'Something went wrong. Please try again.']);
+            return response()->json(['error' => 'Something went wrong. Please try again.'],500);
         } else {
             return redirect()->route('front.register')->with('error', 'Something went wrong. Please try again');
         }
@@ -97,7 +114,7 @@ class CustomAuthController extends Controller
 
         }
         if (Str::contains(url()->current(), '/api/')) {
-            return response()->json(['error' => 'Email and Password does not match . Please try again.']);
+            return response()->json(['error' => 'Email and Password does not match . Please try again.'],500);
         } else {
 
             return redirect()->route('front.register')->with('error', 'Something went wrong. Please try again');
@@ -119,7 +136,7 @@ class CustomAuthController extends Controller
             {
                 return response()->json($data);
             } else {
-                return response()->json(['error' => 'Login as a SME or Student to view this page']);
+                return response()->json(['error' => 'Login as a SME or Student to view this page'],500);
             }
         } else {
             if (auth()->user()->user_role_type == 1 || auth()->user()->user_role_type == 2)
@@ -158,5 +175,119 @@ class CustomAuthController extends Controller
         } else {
             return back()->with('success', 'Your profile updated successfully.');
         }
+    }
+
+    public function profileCompletionPercent()
+    {
+        $this->user = Auth::user();
+        $result = 0;
+        $totalFields = 0;
+        $percent = 0;
+        if (isset($this->user->userDetails->country))
+        {
+            $result += 1;
+        }
+        if (isset($this->user->userDetails->emirate_state_name))
+        {
+            $result += 1;
+        }
+        if (isset($this->user->userDetails->first_name))
+        {
+            $result += 1;
+        }
+        if (isset($this->user->userDetails->last_name))
+        {
+            $result += 1;
+        }
+        if (isset($this->user->userDetails->phone))
+        {
+            $result += 1;
+        }
+        if (isset($this->user->userDetails->profile_image))
+        {
+            $result += 1;
+        }
+        if ($this->user->user_role_type == 1)
+        {
+            $totalFields = 14;
+            if (isset($this->user->userDetails->dob))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->gender))
+            {
+                $result += 1;
+            }
+            if (count($this->user->skills) > 0)
+            {
+                $result += 1;
+            }
+
+            if (isset($this->user->userDetails->educational_status))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->university_name))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->bank_account_no))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->emirates_id_no))
+            {
+                $result += 1;
+            }
+            if (count($this->user->tradeLicenseFiles) > 0)
+            {
+                $result += 1;
+            }
+
+            $percent = ($result * 100) / $totalFields;
+
+        } elseif ($this->user->user_role_type == 2)
+        {
+            $totalFields = 15;
+            if (isset($this->user->userDetails->company_name))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->company_establish_year))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->company_status))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->business_name))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->company_size))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->company_speciality))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->company_service))
+            {
+                $result += 1;
+            }
+            if (isset($this->user->userDetails->trade_license_no))
+            {
+                $result += 1;
+            }
+            if (count($this->user->tradeLicenseFiles) > 0)
+            {
+                $result += 1;
+            }
+
+            $percent = ($result * 100) / $totalFields;
+        }
+        return round($percent);
     }
 }

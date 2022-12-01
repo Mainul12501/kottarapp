@@ -32,7 +32,7 @@ class JobPostFile extends Model
 
                 self::$jobPostFile->file_url = fileUploadHelper($item, 'job-post-files/', 'job-post-'.$jobPost->job_unique_code.'-');
             }
-            self::$jobPostFile->file_size   = $item->getSize();
+//            self::$jobPostFile->file_size   = $item->getSize();
             self::$jobPostFile->file_type   = $item->getClientMimeType();
             self::$jobPostFile->save();
         }

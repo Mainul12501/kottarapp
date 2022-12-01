@@ -20,20 +20,20 @@
                         <div class="fb_content">
                             <h4>{{ $gig->project_title }}</h4>
                             <ul>
+{{--                                <li>--}}
+{{--                                    <a href="#">--}}
+{{--                                        <i class="fas fa-landmark"></i>--}}
+{{--                                        Magna Aliqua--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                                 <li>
-                                    <a href="#">
-                                        <i class="fas fa-landmark"></i>
-                                        Magna Aliqua
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
+                                    <div href="javascript:void(0)">
                                         <i class="fas fa-map-marker-alt"></i>
-                                        New York
-                                    </a>
+                                        {{ $gig->user->userDetails->country }}
+                                    </div>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="javascript:void(0)">
                                         <i class="far fa-clock"></i>
                                         {{ $gig->created_at->diffForHumans() }}
                                     </a>

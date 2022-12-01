@@ -37,7 +37,7 @@
             <div class="poster_action">
 {{--                <a class="addtofav" title="add to favourite" href="#"><i class="far fa-heart"></i></a>--}}
 {{--                <a class="btn btn-third" href="#">Apply Now</a>--}}
-                <a class="btn btn-third @foreach($gig->applyJobs as $applyJob) @if($applyJob->freelancer_user_id == auth()->id()) disabled @endif @endforeach" href="#" onclick="event.preventDefault(); document.getElementById('applyGig').submit()">Apply Now</a>
+                <a id="applyGigBtn" class="btn btn-third @foreach($gig->applyJobs as $applyJob) @if($applyJob->freelancer_user_id == auth()->id()) disabled-btn d-none @endif @endforeach" href="#" >Apply Now</a>
                 <form action="{{ route('freelancer.apply-gig', ['slug' => $gig->job_post_slug]) }}" method="post" style="display: none" id="applyGig">
                     @csrf
                 </form>
@@ -189,4 +189,31 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function () {
+            checkAndApplyDisableBtn();
+        })
+        $(document).on('click', '#applyGigBtn', function () {
+            event.preventDefault();
+            if ($(this).hasClass('disabled-btn'))
+            {
+                $('#applyGig').attr('action', '');
+                $(this).addClass('d-none');
+                toastr.error("You already applied for this gig.");
+            } else {
+                document.getElementById('applyGig').submit();
+                // alert('sdf');
+            }
+        });
+        function checkAndApplyDisableBtn() {
+            if($('#applyGigBtn').hasClass('disabled-btn'))
+            {
+                $('#applyGig').attr('action', '');
+                $('#applyGigBtn').addClass('d-none');
+            }
+        }
+    </script>
 @endsection
