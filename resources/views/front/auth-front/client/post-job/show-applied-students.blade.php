@@ -142,32 +142,38 @@
                             </div>
                             <div class="card-body">
                                 @forelse($gig->applyJobs as $appliedJob)
-                                    <div class="row">
+                                    <div class="row" style="padding: 5px 0">
                                         <div class="col-md-12 big-div" data-id="{{ $appliedJob->id }}" id="big-div{{ $appliedJob->id }}">
-                                            <div style="height: 100px" class="float-left">
-                                                <img src="{{ isset($appliedJob->freelancerDetails->userDetails->profile_image) ? asset($appliedJob->freelancerDetails->userDetails->profile_image) : asset('frontend/assets/images/default-user.png') }}" alt="" style="border-radius: 50%; height: 50px; width: 50px">
+                                            <div class="float-left position-relative">
+                                                <img src="{{ isset($appliedJob->freelancerDetails->userDetails->profile_image) ? asset($appliedJob->freelancerDetails->userDetails->profile_image) : asset('frontend/assets/images/default-user.png') }}" alt="" style="border-radius: 50%; height: 50px; width: 50px; vertical-align: top" class="">
+                                                <div style="display: inline-block" class="ml-3">
+                                                    <h4 class="">{{ isset($appliedJob->freelancerDetails->name) ? $appliedJob->freelancerDetails->name : 'Unknown Student' }}</h4>
+                                                    <p class="f-s-12">4.5 rating</p>
+                                                </div>
                                             </div>
-                                            <h4 class="float-left ml-4">{{ isset($appliedJob->freelancerDetails->name) ? $appliedJob->freelancerDetails->name : 'Unknown Student' }}</h4>
-                                            <a href="javascript:void(0)" class="btn btn-light float-right arrow-right-icon">
+                                            <a href="javascript:void(0)" class="btn btn-light float-right arrow-right-icon" style="margin-top: 10px">
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
                                         </div>
-                                        <div class="col-md-3 small-div d-none" id="small-div{{ $appliedJob->id }}" data-id="{{ $appliedJob->id }}">
+                                        <div class="col-md-3 small-div d-none mt-3" id="small-div{{ $appliedJob->id }}" data-id="{{ $appliedJob->id }}">
                                             <div class="float-right">
-                                                <a href="{{ route('view-profile', ['id' => $appliedJob->freelancerDetails->id]) }}" class="btn btn-primary btn-sm f-s-10 px-2 py-1 " title="View Student Profile">
+                                                <a href="{{ route('front.view-profile', ['id' => $appliedJob->freelancerDetails->id]) }}" class="btn btn-primary btn-sm f-s-10 px-2 py-1 " data-toggle="tooltip" data-placement="right" title="View Student Profile">
                                                     <i class="fas fa-user"></i>
                                                 </a>
-                                                <form action="" method="post" style="display: inline-block" title="Hire This Student">
-                                                    @csrf
-                                                    <input type="hidden" name="job_id" value="{{ $gig->id }}">
-                                                    <input type="hidden" name="freelancer_id" value="{{ $appliedJob->freelancerDetails->id }}">
-                                                    <button type="submit" class="btn btn-success btn-sm f-s-10 px-2 py-1">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
-                                                </form>
-                                                <a href="{{ route('freelancer.decline-gig-offer', ['id' => $appliedJob->id]) }}" title="Reject Offer" class="btn btn-danger btn-sm f-s-10 px-2 py-1">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+                                                @if($appliedJob->status != 0)
+                                                    <form action="{{ route('client.hire-student-for-job') }}" method="post" style="display: inline-block" onsubmit="return confirm('Are you sure to hire this student?')">
+                                                        @csrf
+                                                        <input type="hidden" name="job_id" value="{{ $gig->id }}">
+                                                        <input type="hidden" name="apply_job_id" value="{{ $appliedJob->id }}">
+                                                        <input type="hidden" name="freelancer_id" value="{{ $appliedJob->freelancerDetails->id }}">
+                                                        <button type="submit" class="btn btn-success btn-sm f-s-10 px-2 py-1" data-toggle="tooltip" data-placement="right" title="Hire This Student">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('freelancer.decline-gig-offer', ['id' => $appliedJob->id]) }}" data-toggle="tooltip" data-placement="right" title="Reject Offer" class="btn btn-danger btn-sm f-s-10 px-2 py-1">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

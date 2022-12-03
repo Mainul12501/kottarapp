@@ -101,4 +101,22 @@ class GigController extends Controller
             return redirect()->back()->with('success' , 'Offer rejected successfully.');
         }
     }
+
+    public function hireStudent (Request $request)
+    {
+        $this->appliedGig = ApplyJob::find($request->apply_job_id);
+        $this->appliedGig->status = 2;
+        $this->appliedGig->save();
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if (isset($this->appliedGig))
+            {
+                return response()->json($this->appliedGig);
+            } else {
+                return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+            }
+        } else {
+            return redirect()->back()->with('success', 'You hired this student for this gig successfully.');
+        }
+    }
 }

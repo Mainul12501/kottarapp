@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SkillsSubCategoryController;
 use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\SkillsController;
 use App\Http\Controllers\Admin\JobPostQuestionController;
+use App\Http\Controllers\Admin\ProjectController;
 
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\CustomAuthController;
@@ -55,9 +56,11 @@ Route::middleware([
     Route::prefix('client')->as('client.')->group(function (){
 //        job post crud
         Route::resource('job-post', JobPostController::class);
+        Route::resource('projects', ProjectController::class);
         Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list');
-
         Route::get('/client-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
+
+        Route::post('/hire-student-for-job', [GigController::class, 'hireStudent'])->name('hire-student-for-job');
     });
 
 //    Frontend Freelancer section routes

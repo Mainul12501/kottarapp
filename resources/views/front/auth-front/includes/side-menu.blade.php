@@ -89,7 +89,10 @@
     <ul class="user_navigation">
         @if(auth()->user()->user_role_type == 2)
             <li >
-                <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Gig</a>
+                <a href="{{ route('client.job-post.create') }}"><i class="fas fa-paper-plane"></i> Post Single Gig</a>
+            </li>
+            <li >
+                <a href="{{ route('client.projects.index') }}"><i class="fas fa-paper-plane"></i> Post Project</a>
             </li>
             <li>
                 <a href="{{ route('client.job-post-list') }}"><i class="far fa-list-alt"></i> My Gig listings</a>

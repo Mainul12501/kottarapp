@@ -55,8 +55,8 @@ class SkillSubCategory extends Model
         return $this->hasMany(Skill::class);
     }
 
-//    public function jobPosts()
-//    {
-//        return $this->hasMany(JobPost::class);
-//    }
+    public function jobPosts()
+    {
+        return $this->hasMany(JobPost::class);
+    }
 }

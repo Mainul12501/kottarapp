@@ -92,4 +92,10 @@ class SkillsSubCategoryController extends Controller
         SkillSubCategory::find($id)->delete();
         return back()->with('success', 'skill sub category deleted successfully.');
     }
+
+    public function getAllSkillSubCategories ()
+    {
+        $subCategories = SkillSubCategory::where('status', 1)->latest()->with('skillCategory')->get();
+        return response()->json($subCategories);
+    }
 }

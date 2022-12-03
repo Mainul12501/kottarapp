@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Skill;
 use App\Models\Admin\SkillCategory;
 use Illuminate\Http\Request;
 
 class SkillsCategoryController extends Controller
 {
+    public $skillCategories;
     /**
      * Display a listing of the resource.
      *
@@ -87,5 +89,11 @@ class SkillsCategoryController extends Controller
     {
         SkillCategory::findOrFail($id)->delete();
         return back()->with('success', 'skill category deleted successfully.');
+    }
+
+    public function getAllSkillCategories ()
+    {
+        $this->skillCategories = SkillCategory::where('status', 1)->latest()->get();
+        return response()->json($this->skillCategories);
     }
 }

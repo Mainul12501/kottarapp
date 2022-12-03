@@ -7,6 +7,7 @@ use App\Http\Requests\Front\JobPostFormRequest;
 use App\Models\Admin\JobPost;
 use App\Models\Admin\JobPostFile;
 use App\Models\Admin\JobPostQuestion;
+use App\Models\Admin\Project;
 use App\Models\Admin\Skill;
 use App\Models\Admin\SkillCategory;
 use App\Models\Admin\SkillSubCategory;
@@ -85,6 +86,12 @@ class JobPostController extends Controller
         DB::beginTransaction();
         try {
             $this->jobPost = JobPost::createJob($request);
+            if (isset($request->project_id) && !empty($request->project_id))
+            {
+                $project = Project::find($request->project_id);
+                $project->jobPosts()->sync($this->jobPost->id);
+            }
+
             if (!empty($request->required_skills))
             {
                 $this->jobPost->skills()->sync($request->required_skills);

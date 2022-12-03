@@ -8,6 +8,7 @@
 <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script> <!-- ck editor script -->
 <script src="{{ asset('/') }}backend/assets/js/vendor/toastrjs.min.js"></script>
 <script src="{{ asset('/') }}frontend/assets/js/custom.js"></script>
+<script src="{{ asset('/') }}frontend/assets/js/customJs.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -46,6 +47,11 @@
             width: 'resolve',
             placeholder: $(this).attr('data-placeholder'),
         });
+    })
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
 

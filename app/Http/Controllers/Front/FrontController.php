@@ -19,7 +19,7 @@ class FrontController extends Controller
 
     public function viewProfile ($id)
     {
-        $this->user = User::where('id', $id)->with('userDetails')->first();
+        $this->user = User::where('id', $id)->with('userDetails', 'skills')->first();
         if (Str::contains(url()->current(), '/api/'))
         {
             if (isset($this->user))

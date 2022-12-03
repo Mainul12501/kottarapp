@@ -202,4 +202,9 @@ class JobPost extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }
