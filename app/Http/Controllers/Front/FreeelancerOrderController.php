@@ -12,6 +12,12 @@ class FreeelancerOrderController extends Controller
     public function submitOrder ($slug)
     {
         $this->gig = JobPost::where('job_post_slug', $slug)->first();
-        return view('front.auth-front.freelancer.jobs.submit.order', ['gig' => $this->gig]);
+        $appliedJob = $this->gig->applyJobs()->where('freelancer_user_id', auth()->id())->first();
+        return view('front.auth-front.freelancer.jobs.submit.order', ['gig' => $this->gig, 'appliedJob' => $appliedJob]);
+    }
+
+    public function submitGigFiles (Request $request)
+    {
+        return $request;
     }
 }

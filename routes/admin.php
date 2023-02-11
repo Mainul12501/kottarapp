@@ -75,6 +75,7 @@ Route::middleware([
 
         Route::get('/decline-gig-offer/{id}', [GigController::class, 'declineGigOffer'])->name('decline-gig-offer');
         Route::get('/freelancer-submit-order/{slug}', [FreeelancerOrderController::class, 'submitOrder'])->name('freelancer-submit-order');
+        Route::post('/freelancer-submit-gig-files', [FreeelancerOrderController::class, 'submitGigFiles'])->name('freelancer-submit-gig-files');
     });
 
     Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
