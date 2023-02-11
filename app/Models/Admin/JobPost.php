@@ -113,7 +113,7 @@ class JobPost extends Model
         self::$jobPost->post_expire_date                                = $request->post_expire_date;
         self::$jobPost->post_expire_date_timestamp                      = strtotime($request->post_expire_date);
         self::$jobPost->job_post_slug                                   = str_replace(' ', '-', $request->project_title);
-        self::$jobPost->status                                          = 0;
+        self::$jobPost->status                                          = 1;
         self::$jobPost->save();
         return self::$jobPost;
     }

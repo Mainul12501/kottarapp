@@ -21,6 +21,8 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\Front\GigController;
 
+use App\Http\Controllers\Front\FreeelancerOrderController;
+
 
 Route::middleware([
     'auth:sanctum',
@@ -56,8 +58,9 @@ Route::middleware([
     Route::prefix('client')->as('client.')->group(function (){
 //        job post crud
         Route::resource('job-post', JobPostController::class);
+        Route::post('/edit-project-gig-ajax', [JobPostController::class, 'editProjectGigAjax'])->name('edit-project-gig-ajax');
         Route::resource('projects', ProjectController::class);
-        Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list');
+        Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list'); // for client
         Route::get('/client-dashboard', [CustomAuthUserViewController::class, 'authUserDashboard'])->name('dashboard');
 
         Route::post('/hire-student-for-job', [GigController::class, 'hireStudent'])->name('hire-student-for-job');
@@ -71,12 +74,13 @@ Route::middleware([
         Route::get('/active-gigs', [GigController::class, 'studentActiveGigs'])->name('active-gigs');
 
         Route::get('/decline-gig-offer/{id}', [GigController::class, 'declineGigOffer'])->name('decline-gig-offer');
+        Route::get('/freelancer-submit-order/{slug}', [FreeelancerOrderController::class, 'submitOrder'])->name('freelancer-submit-order');
     });
 
     Route::get('/get-skill-sub-categories/{id}', [JobPostController::class, 'getSubCategoriesByCategory'])->name('get-sub-categories-by-category');
     Route::get('/view-profile-info', [CustomAuthController::class, 'showUpdateProfileForm'])->name('profile-update-form');
     Route::post('/update-profile', [CustomAuthController::class, 'showUpdateProfile'])->name('update-profile');
-
+    Route::get('/get-profile-info/{id}', [CustomAuthController::class]);
 
 });
 

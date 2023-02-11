@@ -136,15 +136,15 @@
                             <div class="form-group ">
                                 <label  >Sector Speciality</label>
                                 <select class="form-control select2" name="company_speciality" data-placeholder="Select company speciality">
-                                    <option value="Event Management" {{ $user->userDetails->company_size == 'Event Management' ? 'selected' : '' }}>Event Management</option>
-                                    <option value="Hospitals" {{ $user->userDetails->company_size == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
-                                    <option value="Ecommerce industry" {{ $user->userDetails->company_size == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
-                                    <option value="Food industry" {{ $user->userDetails->company_size == 'Food industry' ? 'selected' : '' }}>Food industry</option>
-                                    <option value="Automobiles industry" {{ $user->userDetails->company_size == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
-                                    <option value="Power industry" {{ $user->userDetails->company_size == 'Power industry' ? 'selected' : '' }}>Power industry</option>
-                                    <option value="Garment and textiles" {{ $user->userDetails->company_size == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
-                                    <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
-                                    <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
+                                    <option value="Event Management" {{ $user->userDetails->company_speciality == 'Event Management' ? 'selected' : '' }}>Event Management</option>
+                                    <option value="Hospitals" {{ $user->userDetails->company_speciality == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
+                                    <option value="Ecommerce industry" {{ $user->userDetails->company_speciality == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
+                                    <option value="Food industry" {{ $user->userDetails->company_speciality == 'Food industry' ? 'selected' : '' }}>Food industry</option>
+                                    <option value="Automobiles industry" {{ $user->userDetails->company_speciality == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
+                                    <option value="Power industry" {{ $user->userDetails->company_speciality == 'Power industry' ? 'selected' : '' }}>Power industry</option>
+                                    <option value="Garment and textiles" {{ $user->userDetails->company_speciality == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
+                                    <option value="Financial institution" {{ $user->userDetails->company_speciality == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
+                                    <option value="Agribusiness" {{ $user->userDetails->company_speciality == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
                                 </select>
                                 <span class="text-danger">{{ $errors->has('company_speciality') ? $errors->first('company_speciality') : '' }}</span>
                             </div>
@@ -154,15 +154,15 @@
                             <div class="form-group ">
                                 <label  >Select Services</label>
                                 <select class="form-control select2" name="company_service" data-placeholder="Select company Service">
-                                    <option value="Event Management" {{ $user->userDetails->company_size == 'Event Management' ? 'selected' : '' }}>Event Management</option>
-                                    <option value="Hospitals" {{ $user->userDetails->company_size == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
-                                    <option value="Ecommerce industry" {{ $user->userDetails->company_size == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
-                                    <option value="Food industry" {{ $user->userDetails->company_size == 'Food industry' ? 'selected' : '' }}>Food industry</option>
-                                    <option value="Automobiles industry" {{ $user->userDetails->company_size == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
-                                    <option value="Power industry" {{ $user->userDetails->company_size == 'Power industry' ? 'selected' : '' }}>Power industry</option>
-                                    <option value="Garment and textiles" {{ $user->userDetails->company_size == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
-                                    <option value="Financial institution" {{ $user->userDetails->company_size == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
-                                    <option value="Agribusiness" {{ $user->userDetails->company_size == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
+                                    <option value="Event Management" {{ $user->userDetails->company_service == 'Event Management' ? 'selected' : '' }}>Event Management</option>
+                                    <option value="Hospitals" {{ $user->userDetails->company_service == 'Hospitals' ? 'selected' : '' }}>Hospitals</option>
+                                    <option value="Ecommerce industry" {{ $user->userDetails->company_service == 'Ecommerce industry' ? 'selected' : '' }}>Ecommerce industry</option>
+                                    <option value="Food industry" {{ $user->userDetails->company_service == 'Food industry' ? 'selected' : '' }}>Food industry</option>
+                                    <option value="Automobiles industry" {{ $user->userDetails->company_service == 'Automobiles industry' ? 'selected' : '' }}>Automobiles industry</option>
+                                    <option value="Power industry" {{ $user->userDetails->company_service == 'Power industry' ? 'selected' : '' }}>Power industry</option>
+                                    <option value="Garment and textiles" {{ $user->userDetails->company_service == 'Garment and textiles' ? 'selected' : '' }}>Garment and textiles</option>
+                                    <option value="Financial institution" {{ $user->userDetails->company_service == 'Financial institution' ? 'selected' : '' }}>Financial institution</option>
+                                    <option value="Agribusiness" {{ $user->userDetails->company_service == 'Agribusiness' ? 'selected' : '' }}>Agribusiness</option>
                                 </select>
                                 <span class="text-danger">{{ $errors->has('company_service') ? $errors->first('company_service') : '' }}</span>
                             </div>

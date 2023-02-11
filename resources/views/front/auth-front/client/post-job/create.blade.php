@@ -39,7 +39,7 @@
                                 <select name="skill_sub_category_id" class="form-control select2" required data-toggle="select2" data-placeholeder="Select a Job Category" id="jobSubCategory">
                                     <option {{ !isset($jobPost) ? 'selected' : '' }} disabled>Select a Job Category</option>
                                     @if(isset($jobPost))
-                                        <option value="{{ $jobPost->skillSubCategory->sub_category_name }}"></option>
+                                        <option value="{{ $jobPost->skillSubCategory->id }}">{{ $jobPost->skillSubCategory->sub_category_name }}</option>
                                     @endif
                                 </select>
                                 <span class="text-danger">{{ $errors->has('skill_sub_category_id') ? $errors->first('skill_sub_category_id') : '' }}</span>
@@ -98,7 +98,7 @@
                         <div class="col-md-12">
                             <div class="form-group ">
                                 <label  >Project Description</label>
-                                <textarea class="form-control" name="project_description" id="editor">{!! isset($jobPost) && $jobPost->project_description !!}</textarea>
+                                <textarea class="form-control" name="project_description" id="editor">{!! isset($jobPost) && isset($jobPost->project_description) ? $jobPost->project_description : '' !!}</textarea>
                                 <span class="text-danger">{{ $errors->has('project_description') ? $errors->first('project_description') : '' }}</span>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label  >Budget</label>
-                                <input type="number" name="budget" value="{{ isset($jobPost) && $jobPost->budget }}" class="form-control" />
+                                <input type="number" name="budget" value="{{ isset($jobPost) && isset($jobPost->budget) ? $jobPost->budget : '' }}" class="form-control" />
                                 <span class="text-danger">{{ $errors->has('budget') ? $errors->first('budget') : '' }}</span>
                             </div>
                         </div>

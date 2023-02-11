@@ -43,19 +43,20 @@ Route::middleware('auth:sanctum')->as('api.')->group(function (){
 
     Route::prefix('client')->group(function (){
         Route::apiResource('/job-post', JobPostController::class);
+        Route::post('/edit-project-gig-ajax', [JobPostController::class, 'editProjectGigAjax'])->name('edit-project-gig-ajax');
         Route::apiResource('projects', ProjectController::class);
         Route::get('/job-post-form', [JobPostController::class, 'create'])->name('job-post-form');
         Route::get('/job-post-edit/{id}', [JobPostController::class, 'edit'])->name('job-post-form');
-        Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list');
+        Route::get('/job-post-list', [JobPostController::class, 'userWiseJobPost'])->name('job-post-list'); // for client
 
         Route::post('/hire-student-for-job', [GigController::class, 'hireStudent'])->name('hire-student-for-job');
     });
 
     //    Frontend Freelancer section routes
     Route::prefix('freelancer')->group(function (){
-        Route::get('/browse-all-gigs', [FrontController::class, 'browseAllGigs'])->name('browse-all-gigs');
-        Route::get('/gig-details/{slug}', [FrontController::class, 'freelancerGigDetails'])->name('gig-details');
-        Route::post('/apply-gig/{slug}', [FrontController::class, 'applyGig'])->name('apply-gig');
+        Route::get('/browse-all-gigs', [GigController::class, 'browseAllGigs'])->name('browse-all-gigs');
+        Route::get('/gig-details/{slug}', [GigController::class, 'freelancerGigDetails'])->name('gig-details');
+        Route::post('/apply-gig/{slug}', [GigController::class, 'applyGig'])->name('apply-gig');
         Route::get('/active-gigs', [GigController::class, 'studentActiveGigs'])->name('active-gigs');
     });
 });

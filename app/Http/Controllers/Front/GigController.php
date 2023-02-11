@@ -46,6 +46,7 @@ class GigController extends Controller
                 return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
             }
         } else {
+
             return view('front.auth-front.freelancer.jobs.browse.details', [
                 'gig'   => $this->gig,
             ]);
@@ -54,14 +55,36 @@ class GigController extends Controller
 
     public function applyGig (Request $request, $slug)
     {
-        $this->gig = JobPost::where('job_post_slug', $slug)->first();
-        $applyJob = ApplyJob::applyJob($request, $this->gig);
-        if (Str::contains(url()->current(), '/api/'))
+        if (auth()->user()->account_status == 1)
         {
-            return response()->json(['success' => 'You successfully applied for this job.', 'apply_job' => $applyJob]);
+            $this->gig = JobPost::where('job_post_slug', $slug)->first();
+            $existProposal = ApplyJob::where(['job_post_id'=> $this->gig->id, 'freelancer_user_id' => auth()->id()])->first();
+            if ($existProposal)
+            {
+                if (Str::contains(url()->current(), '/api/'))
+                {
+                    return response()->json('You already applied for this job.', 200);
+                } else {
+                    return back()->with('error', 'You already applied for this job.');
+                }
+            }
+            $applyJob = ApplyJob::applyJob($request, $this->gig->id);
+            if (Str::contains(url()->current(), '/api/'))
+            {
+                return response()->json(['success' => 'You successfully applied for this job.', 'apply_job' => $applyJob]);
+            } else {
+                return redirect()->route('freelancer.browse-all-gigs')->with('success' , 'You successfully applied for this job.');
+            }
         } else {
-            return redirect()->route('freelancer.browse-all-gigs')->with('success' , 'You successfully applied for this job.');
+            if (Str::contains(url()->current(), '/api/'))
+            {
+                return response()->json('Your account is not approved yet.', 500);
+            } else {
+                return back()->with('error', 'Your account is not approved yet.');
+            }
         }
+
+
     }
 
     public function studentActiveGigs ()
@@ -104,19 +127,31 @@ class GigController extends Controller
 
     public function hireStudent (Request $request)
     {
-        $this->appliedGig = ApplyJob::find($request->apply_job_id);
-        $this->appliedGig->status = 2;
-        $this->appliedGig->save();
+        if (auth()->user()->user_role_type == 2)
+        {
+            $this->appliedGig = ApplyJob::find($request->apply_job_id);
+            $this->appliedGig->status = 2;
+            $this->appliedGig->save();
+        }
+
         if (Str::contains(url()->current(), '/api/'))
         {
             if (isset($this->appliedGig))
             {
-                return response()->json($this->appliedGig);
+                return response()->json([
+                    'applyGig' => $this->appliedGig,
+                    'success' => 'You hired this student for this gig successfully.',
+                ]);
             } else {
                 return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
             }
         } else {
-            return redirect()->back()->with('success', 'You hired this student for this gig successfully.');
+            if (isset($this->appliedGig))
+            {
+                return redirect()->back()->with('success', 'You hired this student for this gig successfully.');
+            } else {
+                return redirect()->back()->with('error' , 'Something went wrong. Please try again.');
+            }
         }
     }
 }

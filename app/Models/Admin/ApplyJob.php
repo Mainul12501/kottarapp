@@ -35,10 +35,10 @@ class ApplyJob extends Model
 
     private static $applyJob;
 
-    public static function applyJob ($request, $gig, $id = null)
+    public static function applyJob ($request, $gigId, $id = null)
     {
         return ApplyJob::updateOrCreate(['id' => $id], [
-            'job_post_id'       => $gig->id,
+            'job_post_id'       => $gigId,
             'freelancer_user_id'    => auth()->id(),
             'proposal_text' => $request->proposal_text,
             'budget_proposal'   => $request->budget_proposal,

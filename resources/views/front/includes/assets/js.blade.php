@@ -55,5 +55,84 @@
     })
 </script>
 
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+<script>
+    // Enable pusher logging - don't include this in production
+    // Pusher.logToConsole = false;
+    //
+    // var pusher = new Pusher('3538fa3ad54285c4fd36', {
+    //     cluster: 'ap2',
+    // });
+    //
+    // var jobPostNotificationChannel = pusher.subscribe('job-post-notification-channel');
+    // jobPostNotificationChannel.bind('job-post-notification-event', function (data) {
+    //     console.log(JSON.stringify(data));
+    // });
+</script>
+
+<script>
+    // comment out after project done
+    $(function () {
+        // getNotifications();
+    })
+
+    function getNotifications() {
+        let notificationsHtml = ``;
+        $.ajax({
+            url:baseUrl+'customer/notification/list',
+            method:'GET',
+            data:{
+                limit:5,
+            },
+            success:function (response) {
+                console.log(response.notifications);
+                // $(".notifications-count").text(response.notifications.length);
+                // if (response.notifications.length) {
+                //     $.each(response.notifications,function (key,notification) {
+                //         let notificationMessage = notification.data.message.substring(0,30);
+                //         notificationsHtml += `
+                //       <div class="dropdown-divider"></div>
+                //         <a href="javaScript:void(0)"  class="dropdown-item">
+                //             <i class="fas fa-envelope mr-2"></i> `+notificationMessage+`
+                //         </a>`;
+                //     });
+                //     notificationsHtml += `
+                //         <div class="dropdown-divider"></div>
+                //          <a href="javaScript:void(0);" onclick="markAllAsRead();" class="dropdown-item dropdown-footer text-center"><b>Mark All Read</b></a>`;
+                //
+                // }
+                // else{
+                //     notificationsHtml += `<a href="javaScript:void(0)" class="dropdown-item d-none no-notification"><i class="fa fa-bell-slash text-danger mr-2"></i>There is no notification</a>`;
+                // }
+                // notificationsHtml += `<a href="${BASE_URL}customer/notification" class="dropdown-item dropdown-footer text-center"><b>View All Notifications</b></a>`;
+                // $(".notification-dropdown").html(notificationsHtml);
+                //
+                // $(".notification-dropdown .no-notification").removeClass('d-none');
+            },
+            error:function (errorResponse) {
+                console.log(errorResponse);
+            }
+        });
+    }
+
+    /**
+     * This function marks all notifications to read
+     */
+    function markAllAsRead() {
+        $.ajax({
+            url: baseUrl + 'customer/notification/mark-all-read',
+            method: 'POST',
+            data: {},
+            success: function (response) {
+                if (response.success){
+                    toastr.success(response.message);
+                    getNotifications();
+                }
+            }
+        });
+    }
+
+</script>
+
 
 @yield('script')

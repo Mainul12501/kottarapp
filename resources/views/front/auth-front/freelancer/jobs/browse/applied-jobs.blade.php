@@ -18,7 +18,15 @@
                             <img alt="brand logo" src="{{ asset($gig->jobPost->user->userDetails->profile_image) }}">
                         </div>
                         <div class="fb_content">
-                            <h4>{{ $gig->jobPost->project_title }}</h4>
+                            <h4>
+                                {{ $gig->jobPost->project_title }}
+                                @if($gig->status == 2)
+                                    <span class="varified">
+                                        <i class="fas fa-check"></i>
+                                        Hired
+                                    </span>
+                                @endif
+                            </h4>
                             <ul>
                                 {{--                                <li>--}}
                                 {{--                                    <a href="#">--}}

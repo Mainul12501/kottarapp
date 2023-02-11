@@ -91,7 +91,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->project = Project::find($id);
+        return response()->json($this->project);
     }
 
     /**
@@ -103,7 +104,18 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->project = Project::createOrUpdateProject($request, $id);
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if (isset($this->project))
+            {
+                return response()->json($this->project, 200);
+            } else {
+                return response()->json(['error' => 'Someting went wrong. Please try again.'], 500);
+            }
+        } else {
+            return redirect()->back()->with('success', 'Project updated successfully.');
+        }
     }
 
     /**
@@ -114,6 +126,13 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->project = Project::find($id);
+        $this->project->delete();
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            return response()->json(['success' => 'Project deleted successfully.']);
+        } else {
+            return redirect()->back()->with('success' , 'Project deleted successfully.');
+        }
     }
 }

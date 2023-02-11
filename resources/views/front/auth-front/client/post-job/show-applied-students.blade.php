@@ -147,7 +147,7 @@
                                             <div class="float-left position-relative">
                                                 <img src="{{ isset($appliedJob->freelancerDetails->userDetails->profile_image) ? asset($appliedJob->freelancerDetails->userDetails->profile_image) : asset('frontend/assets/images/default-user.png') }}" alt="" style="border-radius: 50%; height: 50px; width: 50px; vertical-align: top" class="">
                                                 <div style="display: inline-block" class="ml-3">
-                                                    <h4 class="">{{ isset($appliedJob->freelancerDetails->name) ? $appliedJob->freelancerDetails->name : 'Unknown Student' }}</h4>
+                                                    <h4 class="">{{ isset($appliedJob->freelancerDetails->name) ? $appliedJob->freelancerDetails->name : 'Unknown Student' }} @if($appliedJob->status == 2)<span class="varified"><i class="fas fa-check"></i> Hired</span>@endif</h4>
                                                     <p class="f-s-12">4.5 rating</p>
                                                 </div>
                                             </div>
@@ -160,7 +160,7 @@
                                                 <a href="{{ route('front.view-profile', ['id' => $appliedJob->freelancerDetails->id]) }}" class="btn btn-primary btn-sm f-s-10 px-2 py-1 " data-toggle="tooltip" data-placement="right" title="View Student Profile">
                                                     <i class="fas fa-user"></i>
                                                 </a>
-                                                @if($appliedJob->status != 0)
+                                                @if($appliedJob->status != 0 && $appliedJob->status != 2)
                                                     <form action="{{ route('client.hire-student-for-job') }}" method="post" style="display: inline-block" onsubmit="return confirm('Are you sure to hire this student?')">
                                                         @csrf
                                                         <input type="hidden" name="job_id" value="{{ $gig->id }}">
@@ -170,10 +170,10 @@
                                                             <i class="fas fa-check"></i>
                                                         </button>
                                                     </form>
-                                                    <a href="{{ route('freelancer.decline-gig-offer', ['id' => $appliedJob->id]) }}" data-toggle="tooltip" data-placement="right" title="Reject Offer" class="btn btn-danger btn-sm f-s-10 px-2 py-1">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
                                                 @endif
+                                                <a href="{{ route('freelancer.decline-gig-offer', ['id' => $appliedJob->id]) }}" data-toggle="tooltip" data-placement="right" title="Reject Offer" class="btn btn-danger btn-sm f-s-10 px-2 py-1">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -208,11 +208,20 @@
             var bigDiv = $('#big-div'+dataId);
             var smallDiv = $('#small-div'+dataId);
 
-            bigDiv.removeClass('col-md-12');
-            bigDiv.addClass('col-md-9');
-            smallDiv.removeClass('d-none');
+            if ($(this).children().hasClass('fa-arrow-left'))
+            {
+                bigDiv.removeClass('col-md-12');
+                smallDiv.removeClass('d-none');
+                bigDiv.addClass('col-md-9');
 
-            $(this).children().removeClass('fa-arrow-left').addClass('fa-arrow-right');
+                $(this).children().removeClass('fa-arrow-left').addClass('fa-arrow-right');
+            } else if($(this).children().hasClass('fa-arrow-right')) {
+                bigDiv.removeClass('col-md-9');
+                smallDiv.addClass('d-none');
+                bigDiv.addClass('col-md-12');
+
+                $(this).children().removeClass('fa-arrow-right').addClass('fa-arrow-left');
+            }
         })
     </script>
 @endsection

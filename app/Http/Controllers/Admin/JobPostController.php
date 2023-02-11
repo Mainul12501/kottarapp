@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\JobPostFormRequest;
+use App\Models\Admin\ApplyJob;
 use App\Models\Admin\JobPost;
 use App\Models\Admin\JobPostFile;
 use App\Models\Admin\JobPostQuestion;
@@ -17,7 +18,7 @@ use Illuminate\Support\Str;
 
 class JobPostController extends Controller
 {
-    private $subCategories, $jobPosts, $jobPost;
+    private $subCategories, $jobPosts, $jobPost, $project;
     /**
      * Display a listing of the resource.
      *
@@ -127,6 +128,10 @@ class JobPostController extends Controller
         } else {
             if (isset($this->jobPost))
             {
+                if (isset($request->project_id) && !empty($request->project_id))
+                {
+                    return redirect()->back()->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
+                }
                 return redirect()->route('client.job-post-list')->with('success', 'Job created successfully and pending for approve. One of our admin will review and approve your job very soon.');
             } else {
                 return back()->with('error', 'Something went wrong. Please try again.');
@@ -143,6 +148,7 @@ class JobPostController extends Controller
     public function show($id)
     {
         $this->jobPost = JobPost::where('id', $id)->with('skillCategory', 'skillSubCategory', 'user', 'jobPostFiles', 'applyJobs', 'skills', 'jobPostQuestions')->first();
+
         if (Str::contains(url()->current(), '/api/'))
         {
             if (isset($this->jobPost))
@@ -196,6 +202,11 @@ class JobPostController extends Controller
         DB::beginTransaction();
         try {
             $this->jobPost = JobPost::updateJobPost ($request, $id);
+            if (isset($request->project_id) && !empty($request->project_id))
+            {
+                $project = Project::find($request->project_id);
+                $project->jobPosts()->sync($this->jobPost->id);
+            }
             if (!empty($request->required_skills))
             {
                 $this->jobPost->skills()->sync($request->required_skills);
@@ -263,7 +274,7 @@ class JobPostController extends Controller
 
     public function userWiseJobPost ()
     {
-        $this->jobPosts = JobPost::where('client_user_id', auth()->id())->with('user.userDetails', 'jobPostFiles', 'skillCategory', 'skillSubCategory', 'skills')->latest()->get();
+        $this->jobPosts = JobPost::where('client_user_id', auth()->id())->with('user.userDetails', 'jobPostFiles', 'skillCategory', 'skillSubCategory', 'skills', 'applyJobs.freelancerDetails.userDetails')->latest()->paginate(10);
         if (Str::contains(url()->current(), '/api/'))
         {
             if ($this->jobPosts->isEmpty())
@@ -275,6 +286,38 @@ class JobPostController extends Controller
         }
         return view('front.auth-front.client.post-job.index',[
             'jobPosts'  => $this->jobPosts,
+        ]);
+    }
+
+    public function editProjectGigAjax(Request $request)
+    {
+        $this->project = Project::find($request->project_id);
+        $this->jobPost = JobPost::find($request->gig_id);
+        if (Str::contains(url()->current(), '/api/'))
+        {
+            if (isset($request->project_id) && isset($request->gig_id))
+            {
+                return response()->json([
+                    'projects'  => Project::where('status', 1)->get(),
+                    'selectedProject'  => $this->project,
+                    'jobPost'  => $this->jobPost,
+                    'skillCategories' => SkillCategory::where('status', 1)->get(),
+                    'questions'     => JobPostQuestion::where('status', 1)->get(),
+                    'skills'     => Skill::where('status', 1)->get()
+                ]);
+            } else {
+                return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+            }
+        }
+//        return response()->json(html_entity_decode(strip_tags($this->jobPost->project_description)));
+//        return response()->json(html_entity_decode($this->jobPost->project_description));
+        return view('front.auth-front.client.post-project.edit-project-gig', [
+            'projects'  => Project::where('status', 1)->get(),
+            'selectedProject'  => $this->project,
+            'jobPost'  => $this->jobPost,
+            'skillCategories' => SkillCategory::where('status', 1)->get(),
+            'questions'     => JobPostQuestion::where('status', 1)->get(),
+            'skills'     => Skill::where('status', 1)->get()
         ]);
     }
 

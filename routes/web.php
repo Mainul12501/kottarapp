@@ -5,6 +5,10 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\CustomAuthController;
 
 
+
+use App\Http\Controllers\Front\NotificationController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,3 +42,15 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+//    notification routes testing
+Route::group(['prefix' => 'customer/notification'], function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('viewNotifications');
+    Route::get('list', [NotificationController::class, 'getNotifications'])->name('getNotifications');
+    Route::get('user-notification', [NotificationController::class, 'getNotifications'])->name('getUserNotifications');
+    Route::get('all-notification', [NotificationController::class, 'getAllNotifications'])->name('getAllNotifications');
+    Route::post('mark-read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+    Route::post('mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('markAllAsRead');
+});
+

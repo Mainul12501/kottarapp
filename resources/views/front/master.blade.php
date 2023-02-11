@@ -48,5 +48,7 @@
 <!-- Scripts
 ================================================== -->
 @include('front.includes.assets.js')
+
+
 </body>
 </html>

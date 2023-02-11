@@ -11,7 +11,13 @@
                 <img alt="brand logo" src="{{ asset($gig->user->userDetails->profile_image) }}">
             </div>
             <div class="poster_details">
-                <h2>{{ $gig->project_title }} <span class="varified"><i class="fas fa-check"></i>Verified</span></h2>
+                <h2>
+                    {{ $gig->project_title }}
+                    @php($currentApplyJob = $gig->applyJobs()->where('freelancer_user_id', auth()->id())->first())
+                    @if(isset($currentApplyJob) && ($currentApplyJob->status == 0 || $currentApplyJob->status == 1))
+                        <span class="varified bg-danger"><i class="fas fa-times bg-danger"></i>Rejected</span>
+                    @endif
+                </h2>
 {{--                <h5>About the Employer</h5>--}}
                 <ul>
 {{--                    <li>--}}
@@ -41,6 +47,9 @@
                 <form action="{{ route('freelancer.apply-gig', ['slug' => $gig->job_post_slug]) }}" method="post" style="display: none" id="applyGig">
                     @csrf
                 </form>
+                @if(isset($currentApplyJob) && $currentApplyJob->status == 2)
+                    <a href="{{ route('freelancer.freelancer-submit-order', ['slug' => $gig->job_post_slug]) }}" class="btn btn-third">Submit Order</a>
+                @endif
             </div>
         </div>
 

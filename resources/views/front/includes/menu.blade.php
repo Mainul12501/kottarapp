@@ -155,20 +155,21 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="login_pop after_login">
-                                <button class="btn btn-msg">
-                                    <i class="fas fa-envelope"></i>
-                                    <span class="msg-count">2</span>
-                                </button>
-                                <div class="login_pop_box job_seekernotifi ">
-                                    <h6>Inbox</h6>
-                                    <ul>
-                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-1.png"><a href="#"> John Stone applying this job  contact  </a> </li>
-                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-2.png"><a href="#">Nguta Ithya  applying this job  contact  </a> </li>
-                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-4.png"><a href="#">Salome Simoes applying this job</a> </li>
-                                    </ul>
-                                </div>
-                            </div>
+{{--                        Notification section--}}
+{{--                            <div class="login_pop after_login">--}}
+{{--                                <button class="btn btn-msg">--}}
+{{--                                    <i class="fas fa-envelope"></i>--}}
+{{--                                    <span class="msg-count">2</span>--}}
+{{--                                </button>--}}
+{{--                                <div class="login_pop_box job_seekernotifi ">--}}
+{{--                                    <h6>Inbox</h6>--}}
+{{--                                    <ul>--}}
+{{--                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-1.png"><a href="#"> John Stone applying this job  contact  </a> </li>--}}
+{{--                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-2.png"><a href="#">Nguta Ithya  applying this job  contact  </a> </li>--}}
+{{--                                        <li><img alt="" src="{{ asset('/') }}frontend/assets/images/profile-4.png"><a href="#">Salome Simoes applying this job</a> </li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <!--end logedin-->
                     @else
                         <!--Not logedin-->
